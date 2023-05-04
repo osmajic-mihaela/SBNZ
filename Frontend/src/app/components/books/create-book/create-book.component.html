@@ -1,0 +1,33 @@
+<div class="container mt-4" >
+    <h1>Create book</h1>
+    <div class="form-group">
+      <label>Book name:</label>
+      <input type="text" [(ngModel)]="book.name"  class="form-control" id="firstName">
+    </div>
+ 
+    <div class="form-group">
+        <label>Writter:</label>
+        <input type="text" [(ngModel)]="book.writer" class="form-control" id="lastName">
+      </div>
+ 
+      <div class="form-group">
+        <label>Price:</label>
+        <input type="email" [(ngModel)]="book.price" class="form-control" id="email">
+      </div>
+
+      <div >
+        <label>Select an option</label>
+        <select [(ngModel)] ="book.category">
+          <option>None</option>
+          <option value="EDUCATION">Education</option>
+          <option value="NOVELS">NOVELS</option>
+        </select>
+    </div>
+
+      
+      <div>
+        <p *ngIf="showMsg" style="color: red;">{{errorMsg}}</p>
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="addBook()">Add book</button>
+</div>
+

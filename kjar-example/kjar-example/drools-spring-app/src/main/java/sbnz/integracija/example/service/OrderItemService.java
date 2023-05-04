@@ -5,6 +5,7 @@ import demo.facts.User;
 import org.kie.api.runtime.KieContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sbnz.integracija.example.dto.OrderItemDTO;
 import sbnz.integracija.example.repository.OrderItemRepository;
 
 import java.util.List;
@@ -32,8 +33,19 @@ public class OrderItemService {
     }
 
 
-    public Object addOrderItem(OrderItem orderItem) {
-        this.repository.addOrderItem(orderItem);
-        return orderItem;
+    public Object addOrderItem(OrderItemDTO orderItem) {
+
+        List<OrderItem> items = repository.getOrderItems();
+        OrderItem retVal = items.stream().filter(u->u.getBookName().equals(orderItem.bookName)).findFirst().orElse(null);
+
+        /*if (retVal == null) {
+            this.repository.addOrderItem(new OrderItem(orderItem.bookName, 1, orderItem.book));
+            return retVal;
+        }
+        else {
+            retVal.setQuantity(retVal.getQuantity()+1);
+        }*/
+
+        return this.repository.addOrderItem(new OrderItem(orderItem.bookName, 1, orderItem.book));
     }
 }

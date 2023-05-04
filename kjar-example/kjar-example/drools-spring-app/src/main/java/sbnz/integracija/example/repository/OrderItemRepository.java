@@ -1,9 +1,6 @@
 package sbnz.integracija.example.repository;
 
-import demo.facts.Book;
-import demo.facts.BookCategory;
-import demo.facts.OrderItem;
-import demo.facts.User;
+import demo.facts.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -40,7 +37,8 @@ public class OrderItemRepository {
         return orderItems.stream().filter(u->u.getOrderId().equals(id)).findFirst().orElse(null);
     }
 
-    public void addOrderItem(OrderItem orderItem){
+    public OrderItem addOrderItem(OrderItem orderItem){
         this.orderItems.add(orderItem);
+        return orderItem;
     }
 }
