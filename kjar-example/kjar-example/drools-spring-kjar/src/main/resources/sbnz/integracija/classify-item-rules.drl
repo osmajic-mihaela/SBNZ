@@ -1,0 +1,45 @@
+package sbnz.integracija;
+
+import demo.facts.Order;
+import demo.facts.Book;
+import demo.facts.OrderItem;
+import demo.facts.BookCategory;
+
+
+rule "Stavka - cena > 3000"
+when
+    $orderItem : OrderItem(orderItemPrice > 3000)
+then
+    $orderItem.setDiscount(5);
+end
+
+rule "Stavka - cena > 2000 i kategorija = Edukativni sadrzaj"
+when
+    $orderItem : OrderItem(orderItemPrice > 2000, book.category == BookCategory.EDUCATION)
+then
+    $orderItem.setDiscount(7);
+end
+
+rule "Stavka - 2 ili vise artikala"
+when
+    $orderItem : OrderItem(quantity >= 2)
+then
+    $orderItem.setDiscount(10);
+end
+
+rule "Porudzbina - 3 ili vise stavki"
+when
+    $order : Order($items : items.size >= 3)
+then
+    $order.setDiscount(10);
+end
+
+rule "Porudzbina - 5 ili vise stavki"
+when
+    $order : Order($items : items.size >= 5)
+then
+    $order.setDiscount(15);
+end
+
+
+

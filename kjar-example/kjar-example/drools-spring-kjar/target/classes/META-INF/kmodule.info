@@ -1,0 +1,32 @@
+<org.drools.core.rule.KieModuleMetaInfo>
+  <typeMetaInfos>
+    <entry>
+      <string>demo.facts.OrderItem</string>
+      <org.drools.core.rule.TypeMetaInfo>
+        <kind>CLASS</kind>
+        <role>FACT</role>
+        <isDeclaredType>false</isDeclaredType>
+      </org.drools.core.rule.TypeMetaInfo>
+    </entry>
+    <entry>
+      <string>demo.facts.Order</string>
+      <org.drools.core.rule.TypeMetaInfo>
+        <kind>CLASS</kind>
+        <role>FACT</role>
+        <isDeclaredType>false</isDeclaredType>
+      </org.drools.core.rule.TypeMetaInfo>
+    </entry>
+  </typeMetaInfos>
+  <rulesByPackage>
+    <entry>
+      <string>sbnz.integracija</string>
+      <set>
+        <string>Stavka - cena &gt; 3000</string>
+        <string>Stavka - 2 ili vise artikala</string>
+        <string>Stavka - cena &gt; 2000 i kategorija = Edukativni sadrzaj</string>
+        <string>Porudzbina - 3 ili vise stavki</string>
+        <string>Porudzbina - 5 ili vise stavki</string>
+      </set>
+    </entry>
+  </rulesByPackage>
+</org.drools.core.rule.KieModuleMetaInfo>

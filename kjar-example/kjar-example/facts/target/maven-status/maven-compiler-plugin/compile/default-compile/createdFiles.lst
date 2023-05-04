@@ -1,0 +1,8 @@
+demo\facts\Item.class
+demo\facts\BookCategory.class
+demo\facts\Book.class
+demo\facts\Item$Category.class
+demo\facts\User.class
+demo\facts\Order.class
+demo\facts\OrderItem.class
+demo\facts\Role.class
