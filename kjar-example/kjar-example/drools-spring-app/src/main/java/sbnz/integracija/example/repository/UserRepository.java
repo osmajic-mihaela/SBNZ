@@ -55,4 +55,9 @@ public class UserRepository {
     public void addUser(User user){
         this.users.add(user);
     }
+
+    public User logout(){
+        return this.loggedUser = null;
+    }
+
 }

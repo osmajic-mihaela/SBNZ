@@ -4,6 +4,7 @@ import demo.facts.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,8 +23,8 @@ public class OrderItemRepository {
 
     private void init(){
         this.orderItems = new ArrayList<>();
-        OrderItem userBook1 = new OrderItem( "To Kill a Mockingbird",2, new Book( "To Kill a Mockingbird",2000.0,"Harper Lee", BookCategory.NOVELS));
-        OrderItem userBook2 = new OrderItem( "The Catcher in the Rye",1,new Book( "The Catcher in the Rye",1000.0,"J.D. Salinger",BookCategory.EDUCATION));
+        OrderItem userBook1 = new OrderItem( "To Kill a Mockingbird",2, new Book( "To Kill a Mockingbird",2000.0,"Harper Lee", BookCategory.NOVELS, new Date(123, 3, 6)));
+        OrderItem userBook2 = new OrderItem( "The Catcher in the Rye",1,new Book( "The Catcher in the Rye",1000.0,"J.D. Salinger",BookCategory.EDUCATION,new Date(123, 4, 28)));
 
         this.orderItems.add(userBook1);
         this.orderItems.add(userBook2);

@@ -65,5 +65,9 @@ public class UserService {
         return repository.getLoggedUser();
     }
 
+    public User logout(){
+        return repository.logout();
+    }
+
 
 }

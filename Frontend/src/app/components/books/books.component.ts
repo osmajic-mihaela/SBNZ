@@ -21,7 +21,7 @@ export class BooksComponent {
   books: Book[] = [];
   basket: OrderItem[] = [];
   loggedUser: User = new User();
-  isAdmin: boolean = false;
+  role:string = ''
 
   constructor(private router : Router,private http: HttpClient,private userService:UserService) {}
 
@@ -30,9 +30,13 @@ export class BooksComponent {
       next: (response:any) => {
         console.log('useerr',response)
         this.loggedUser = response
+        
         if(response.role == 'ADMIN'){
-          this.isAdmin = true;
+          this.role = 'ADMIN'
+        } else if(response.role == 'USER'){
+          this.role = 'USER'
         }
+        console.log(this.role)
        }
 
 
@@ -53,6 +57,10 @@ export class BooksComponent {
 
   public createBook(){
     this.router.navigate(['/add-book'])
+  }
+
+  public recommendedBooks(){
+    this.router.navigate(['/recommended-books'])
   }
 
   handleArray(array: any) {
@@ -123,4 +131,7 @@ export class BooksComponent {
   public createOrder(dto:OrderDTO): Observable<any> {
     return this.http.post<any>(this.apiHostOrder+'/createOrder' , dto,{headers: this.headers});
   }
+
+  
 }
+

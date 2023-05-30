@@ -1,15 +1,17 @@
 package sbnz.integracija.example.service;
 
-import demo.facts.Book;
-import demo.facts.Role;
-import demo.facts.User;
+import demo.facts.*;
 import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sbnz.integracija.example.repository.BookRepository;
 import sbnz.integracija.example.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class BookService {
@@ -25,8 +27,17 @@ public class BookService {
     }
 
     public List<Book> getBooks() {
+        KieSession kieSession = kieContainer.newKieSession("book-recommendation-rules");
+        List<Book> books = repository.getBooks();
+        List<Book> popularBooks = new ArrayList<Book>();
+        kieSession.setGlobal("popularBooks", popularBooks);
+        for(Book book:books){
+            kieSession.insert(book);
+        }
 
-        return repository.getBooks();
+        kieSession.fireAllRules();
+        kieSession.dispose();
+        return books;
     }
 
     public Object getBook(String bookName) {
@@ -58,5 +69,26 @@ public class BookService {
         else {
             return null;
         }
+    }
+
+    public List<Book> getUnregisteredPopularBooks() {
+        List<Book> books = getBooks();
+        List<Book> popularBooks = new ArrayList<Book>();
+
+        KieSession kieSession = kieContainer.newKieSession("book-recommendation-rules");
+        kieSession.setGlobal("popularBooks", popularBooks);
+
+
+        for(Book book:books){
+            kieSession.insert(book);
+        }
+
+        kieSession.fireAllRules();
+        kieSession.dispose();
+
+        for(Book book:popularBooks){
+            System.out.println(book.getName());
+        }
+        return popularBooks;
     }
 }

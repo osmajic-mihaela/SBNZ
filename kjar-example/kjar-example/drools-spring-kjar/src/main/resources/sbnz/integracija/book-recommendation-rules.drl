@@ -1,0 +1,105 @@
+package sbnz.integracija;
+
+import demo.facts.Book;
+import demo.facts.BookCategory;
+import demo.facts.BookRatingCategory;
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.ThreadLocalRandom.*;
+
+
+global List<Book> popularBooks;
+
+rule "Nova knjiga - restart"
+salience 99999
+when
+    $book: Book()
+then
+    $book.setNew(false);
+end
+
+rule "Nova knjiga - Dodata u ponudu u prethodnih mesec dana"
+when
+    $book: Book(bookDate != null, $bookDate: bookDate)
+    eval($bookDate.after(new Date(System.currentTimeMillis() - (30L * 24 * 60 * 60 * 1000))))
+then
+    $book.setNew(true);
+end
+
+rule "Nova knjiga - Objavljena u prethodnih šest meseci"
+when
+    $book: Book(bookReleaseDate != null, $bookReleaseDate: bookReleaseDate)
+    eval($bookReleaseDate.after(new Date(System.currentTimeMillis() - (6L * 30 * 24 * 60 * 60 * 1000))))
+then
+    $book.setNew(true);
+end
+
+rule "Popularna knjiga - broj ocena jednak ili preko 20"
+when
+    $book: Book(numberOfRatings >= 20)
+then
+    $book.setPopular(true);
+end
+
+rule "Popularna knjiga - nova knjiga i broj ocena jednak ili preko 10"
+when
+    $book: Book(numberOfRatings >= 10, getIsNew()==true)
+then
+    $book.setPopular(true);
+end
+
+rule "Dobro ocenjena knjiga"
+when
+    $book: Book(rating >= 4.0)
+then
+    $book.setRatingCategory(BookRatingCategory.GOOD);
+end
+
+rule "Loše ocenjena knjiga"
+when
+    $book: Book(rating <= 2.5)
+then
+    $book.setRatingCategory(BookRatingCategory.BAD);
+end
+
+rule "Neutralno ocenjena knjiga"
+when
+    $book: Book((rating >= 2.5 && rating < 4) || rating == 0)
+then
+    $book.setRatingCategory(BookRatingCategory.NEUTRAL);
+end
+
+rule "Preporuka - Popularna knjiga sa dobrim ili neutralnim ocenama"
+when
+    $book: Book(getIsPopular() == true, ratingCategory == BookRatingCategory.GOOD || ratingCategory == BookRatingCategory.NEUTRAL)
+then
+    popularBooks.add($book);
+end
+
+rule "Preporuka - Nova knjiga"
+when
+    $book: Book(getIsNew() == true)
+then
+    popularBooks.add($book);
+end
+
+rule "Uklanjanje loše ocenjenih knjiga"
+when
+    $book: Book()
+    eval(popularBooks.size() > 10)
+    eval($book.getRatingCategory() == BookRatingCategory.BAD)
+then
+    popularBooks.remove($book);
+end
+
+rule "Nasumičan izbor 10 knjiga"
+when
+    eval(popularBooks.size() > 10)
+then
+    while (popularBooks.size() > 10) {
+        popularBooks.remove(java.util.concurrent.ThreadLocalRandom.current().nextInt(popularBooks.size()));
+    }
+end
+

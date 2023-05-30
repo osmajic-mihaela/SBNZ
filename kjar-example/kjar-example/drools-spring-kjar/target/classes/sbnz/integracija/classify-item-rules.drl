@@ -6,8 +6,6 @@ import demo.facts.OrderItem;
 import demo.facts.BookCategory;
 
 
-
-
 rule "Stavka - cena > 3000"
 when
     $orderItem : OrderItem(orderItemPrice > 3000)

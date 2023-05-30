@@ -41,7 +41,7 @@ public class OrderService {
 
     public Order addOrder(Order order)
     {
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("classify-item-rules");
 
         for(OrderItem item:order.getItems()){
             kieSession.insert(item);

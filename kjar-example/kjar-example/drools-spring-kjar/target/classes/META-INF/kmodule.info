@@ -9,6 +9,14 @@
       </org.drools.core.rule.TypeMetaInfo>
     </entry>
     <entry>
+      <string>demo.facts.Book</string>
+      <org.drools.core.rule.TypeMetaInfo>
+        <kind>CLASS</kind>
+        <role>FACT</role>
+        <isDeclaredType>false</isDeclaredType>
+      </org.drools.core.rule.TypeMetaInfo>
+    </entry>
+    <entry>
       <string>demo.facts.Order</string>
       <org.drools.core.rule.TypeMetaInfo>
         <kind>CLASS</kind>
@@ -23,9 +31,21 @@
       <set>
         <string>Stavka - cena &gt; 3000</string>
         <string>Stavka - 2 ili vise artikala</string>
+        <string>Preporuka - Popularna knjiga sa dobrim ili neutralnim ocenama</string>
+        <string>Popularna knjiga - nova knjiga i broj ocena jednak ili preko 10</string>
+        <string>NasumiÄ�an izbor 10 knjiga</string>
+        <string>Nova knjiga - restart</string>
+        <string>Preporuka - Nova knjiga</string>
+        <string>Nova knjiga - Dodata u ponudu u prethodnih mesec dana</string>
+        <string>Uklanjanje loÅ¡e ocenjenih knjiga</string>
+        <string>Porudzbina - 5 ili vise stavki</string>
         <string>Stavka - cena &gt; 2000 i kategorija = Edukativni sadrzaj</string>
         <string>Porudzbina - 3 ili vise stavki</string>
-        <string>Porudzbina - 5 ili vise stavki</string>
+        <string>LoÅ¡e ocenjena knjiga</string>
+        <string>Neutralno ocenjena knjiga</string>
+        <string>Dobro ocenjena knjiga</string>
+        <string>Nova knjiga - Objavljena u prethodnih Å¡est meseci</string>
+        <string>Popularna knjiga - broj ocena jednak ili preko 20</string>
       </set>
     </entry>
   </rulesByPackage>

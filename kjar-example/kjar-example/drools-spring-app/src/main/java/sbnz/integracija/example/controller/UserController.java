@@ -39,6 +39,11 @@ public class UserController {
         return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
     }
 
+    @RequestMapping( value = "/logout",method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> logout() {
+        return new ResponseEntity<>(userService.logout(), HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> login(@RequestBody LoginDTO dto) {

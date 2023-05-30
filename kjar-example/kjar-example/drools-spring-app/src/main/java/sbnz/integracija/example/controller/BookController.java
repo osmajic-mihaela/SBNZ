@@ -35,4 +35,10 @@ public class BookController {
 
         return new ResponseEntity<>("Name exist", HttpStatus.BAD_REQUEST);
     }
+
+    @RequestMapping( value = "/unregisteredPopularBooks",method= RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Book>> getUnregisteredPopularBooks() {
+        System.out.println("Pogodilo endpoint");
+        return new ResponseEntity<>(bookService.getUnregisteredPopularBooks(), HttpStatus.OK);
+    }
 }

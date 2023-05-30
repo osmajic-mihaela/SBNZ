@@ -8,8 +8,9 @@
           </div>
       </div>
     <div class="col-5 col-md-5">
-        <button *ngIf="isAdmin" (click)="createBook()">Add book</button>
-        <button *ngIf="basket.length>0" (click)="shop()">Shop</button>
+        <button *ngIf="role=='ADMIN'" (click)="createBook()">Add book</button>
+        <button *ngIf="basket.length>0 && role=='USER'" (click)="shop()">Shop</button>
+        <button *ngIf="role!='ADMIN'" (click)="recommendedBooks()">Recommended books</button>
     </div>
     </div>
   </div>
