@@ -24,3 +24,4 @@ then
   $writer.getGenres().add($category);
   update($writer);
 end
+

@@ -9,3 +9,4 @@ demo\facts\BookRatingCategory.class
 demo\facts\Order.class
 demo\facts\OrderItem.class
 demo\facts\Role.class
+demo\facts\ShoppingDto.class

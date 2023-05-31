@@ -1,0 +1,21 @@
+package sbnz.integracija;
+
+import demo.facts.Book;
+import demo.facts.BookCategory;
+import demo.facts.Writer;
+import java.util.List;
+import java.util.ArrayList;
+
+rule "User je nov"
+when
+    $user: User(numberOfRatings<10)
+then
+  modify($user){setNew(true)}
+end
+
+rule "User nije nov"
+when
+    $user: User(numberOfRatings>=10)
+then
+  modify($user){setNew(false)}
+end

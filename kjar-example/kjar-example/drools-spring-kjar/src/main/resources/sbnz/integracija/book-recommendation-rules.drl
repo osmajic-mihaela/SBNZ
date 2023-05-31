@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.ThreadLocalRandom.*;
 
 import demo.facts.User;
+import demo.facts.UserBookRatingDTO;
 import demo.facts.Writer;
 import java.util.Map;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 global List<Book> popularBooks;
 
-rule "Nova knjiga - restart"
+/*rule "Nova knjiga - restart"
 salience 99999
 when
     $book: Book()
@@ -180,5 +181,40 @@ when
 	$k : Book()
 then
 	popularBooks.add($k);
-end
+end*/
 
+rule "Similar Books"
+ agenda-group "rog"
+ lock-on-active true
+when
+  $user: User($userFavoriteBooks: likedBook)
+  $book: Book($ratingDtos: dtos) from $userFavoriteBooks
+  $ub: UserBookRatingDTO() from $ratingDtos
+
+  $similarBook: Book(this != $book, $similarRatings: dtos)
+
+    $avg: Number(intValue > 0) from accumulate(
+                             $s: UserBookRatingDTO(
+                                  $s.Oj($similarRatings)
+                             ) from $ratingDtos ,
+                                 init(int count = 0;),
+                                 action(count += 1;),
+                                 reverse(count -= 1;),
+                                 result(count)
+                            )
+
+    $t : Number($avg/intValue>=0.7) from accumulate(
+             $s: UserBookRatingDTO(
+             $s.OjOj($similarRatings)
+             ) from $ratingDtos ,
+             init(int count = 0;),
+             action(count += 1;),
+             reverse(count -= 1;),
+             result(count)
+             )
+
+then
+  modify($similarBook){setPoints($similarBook.getPoints()+1)};
+  System.out.println("The book " + $similarBook.getName() + " is similar to one of the user's liked books.");
+  popularBooks.add($similarBook);
+end

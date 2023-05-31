@@ -44,13 +44,15 @@ public class UserRepository {
         genres.add(BookCategory.NOVELS);
 
         User user1 = new User("lazar@gmail.com","lazar","Lazar", "Mijatovic" , "566566", Role.USER, genres, 0.0, new ArrayList<UserBookRatingDTO>());
+        User user4 = new User("proba","proba","Lazar", "Mijatovic" , "566566", Role.USER, genres, 0.0, new ArrayList<UserBookRatingDTO>());
         User user2 = new User("none@gmail.com","none","none", "none" , "566566", Role.ADMIN );
-        User user3 = new User("user@gmail.com","user","Lazar", "Mijatovic" , "566566", Role.USER);
+        User user3 = new User("user","user","Lazar", "Mijatovic" , "566566", Role.USER, genres, 0.0, new ArrayList<UserBookRatingDTO>());
 
 
         this.users.add(user1);
         this.users.add(user2);
         this.users.add(user3);
+        this.users.add(user4);
 
     }
 

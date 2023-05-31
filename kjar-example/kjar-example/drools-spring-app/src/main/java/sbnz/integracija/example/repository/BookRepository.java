@@ -36,9 +36,9 @@ public class BookRepository {
         Writer writer3 = new Writer("Patak Daca");
 
 
-        Book book1 = new Book( "To Kill a Mockingbird",2000.0,"Harper Lee", BookCategory.NOVELS, new Date(123, 3, 6),false, false,4.5,21, BookRatingCategory.NEUTRAL,new Date(122, 3, 6));
-        Book book2 = new Book( "The Catcher in the Rye",1000.0,"J.D. Salinger",BookCategory.EDUCATION,new Date(123, 4, 28),false,false,1.0,2,BookRatingCategory.NEUTRAL,new Date(122, 3, 6));
-        Book book3 = new Book("Other Book", 1500.0, "Some Author", BookCategory.NOVELS, new Date(122, 3, 6),false,false,0.0,0,BookRatingCategory.NEUTRAL, new Date(122, 3, 6));
+        Book book1 = new Book( "To Kill a Mockingbird",2000.0,"Harper Lee", BookCategory.NOVELS, new Date(123, 3, 6),false, false,4.5,21, BookRatingCategory.NEUTRAL,new Date(122, 3, 6),0);
+        Book book2 = new Book( "The Catcher in the Rye",1000.0,"J.D. Salinger",BookCategory.EDUCATION,new Date(123, 4, 28),false,false,1.0,2,BookRatingCategory.NEUTRAL,new Date(122, 3, 6),0);
+        Book book3 = new Book("Other Book", 1500.0, "Some Author", BookCategory.NOVELS, new Date(122, 3, 6),false,false,0.0,0,BookRatingCategory.NEUTRAL, new Date(122, 3, 6),0);
 
         writer1.getBooks().add(book1);
         writer2.getBooks().add(book2);
@@ -55,7 +55,9 @@ public class BookRepository {
 
 
         for(int i=0; i!=10; i++){
-            this.books.add(new Book("TEMP"+i, 1500.0, "Some Author", BookCategory.NOVELS, new Date(123, 4, 28),true,false,0.0,0,BookRatingCategory.NEUTRAL, new Date(122, 3, 6),writer3));
+            Book t = new Book("TEMP"+i, 1500.0, "Some Author", BookCategory.NOVELS, new Date(123, 4, 28),true,false,0.0,0,BookRatingCategory.NEUTRAL, new Date(122, 3, 6));
+            this.books.add(t);
+            writer3.getBooks().add(t);
         }
     }
 

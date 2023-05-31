@@ -93,6 +93,22 @@ public class Book implements Serializable {
         this.points =0;
         this.writerObject = null;
     }
+    public Book(String name, Double price, String writer, BookCategory category, Date date, boolean isNew, boolean isPopular, double rating,int numberOfRatings ,BookRatingCategory bookRatingCategory, Date bookReleaseDate, int points) {
+        this.name = name;
+        this.price = price;
+        this.writer = writer;
+        this.category = category;
+        this.bookDate = date;
+        this.isNew = isNew;
+        this.isPopular = isPopular;
+        this.rating = rating;
+        this.ratingCategory = bookRatingCategory;
+        this.bookReleaseDate = bookReleaseDate;
+        this.numberOfRatings = numberOfRatings;
+        this.dtos = new ArrayList<>();
+        this.points =points;
+        this.writerObject = null;
+    }
 
     public Book(Book b) {
         this.name = b.name;

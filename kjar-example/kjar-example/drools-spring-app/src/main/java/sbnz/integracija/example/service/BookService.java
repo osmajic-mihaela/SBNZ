@@ -213,6 +213,24 @@ public class BookService {
             for(Book b: popularBooks){
                 System.out.println(b.getName());
             }
+        }else{
+            kieSession.setGlobal("popularBooks", popularBooks);
+
+            for(Book book:books){
+                kieSession.insert(book);
+            }
+            for(Writer w:getWriters()){
+                kieSession.insert(new Writer(w));
+            }
+            kieSession.insert(u);
+            kieSession.getAgenda().getAgendaGroup("rog").setFocus();
+            kieSession.fireAllRules();
+            kieSession.dispose();
+
+
+
+            popularBooks.sort(Comparator.comparing(Book::getRating).reversed());
+
         }
 
 

@@ -19,7 +19,7 @@ public class User implements Serializable{
     private ArrayList<BookCategory> favoriteGenre;
 
     private List<Book> likedBook;
-    private List<Book> shoppedBooks;
+    private List<ShoppingDto> shoppedBooks;
     private double numberOfRatings;
     private List<UserBookRatingDTO> booksAnRatingsDtos;
 
@@ -33,7 +33,7 @@ public class User implements Serializable{
         this.isNew = true;
         this.favoriteGenre = new ArrayList<BookCategory>();
         this.likedBook = new ArrayList<Book>();
-        this.shoppedBooks = new ArrayList<Book>();
+        this.shoppedBooks = new ArrayList<ShoppingDto>();
         this.numberOfRatings = 0.0;
         this.booksAnRatingsDtos = new ArrayList<>();
     }
@@ -48,7 +48,7 @@ public class User implements Serializable{
         this.isNew = true;
         this.favoriteGenre = favoriteGenres;
         this.likedBook = new ArrayList<Book>();
-        this.shoppedBooks = new ArrayList<Book>();
+        this.shoppedBooks = new ArrayList<ShoppingDto>();
         this.numberOfRatings = numberOfRatings;
         this.booksAnRatingsDtos = dtos;
     }
@@ -124,11 +124,11 @@ public class User implements Serializable{
         this.likedBook = likedBook;
     }
 
-    public List<Book> getShoppedBooks() {
+    public List<ShoppingDto> getShoppedBooks() {
         return shoppedBooks;
     }
 
-    public void setShoppedBooks(List<Book> shoppedBooks) {
+    public void setShoppedBooks(List<ShoppingDto> shoppedBooks) {
         this.shoppedBooks = shoppedBooks;
     }
 
