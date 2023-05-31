@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Book } from 'src/app/model/Book';
 import { OrderItemDTO } from 'src/app/model/OrderItemDTO';
+import { RateDTO } from 'src/app/model/RateDTO';
+import { UserService } from 'src/app/services/user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-book-card',
@@ -17,11 +20,23 @@ export class BookCardComponent {
   //@Input() basket:Book[] = [];
   dto:OrderItemDTO = new OrderItemDTO();
   @Output() arrayEmitted  = new EventEmitter<Book>();
+  rating: number = 0;
+  role:string = ''
 
-
-  constructor(private router: Router,private http: HttpClient) { }
+  constructor(private router: Router,private http: HttpClient,private userService:UserService,private location: Location) { }
 
   ngOnInit(): void {
+    this.userService.LoggedUser().subscribe({
+      next: (response:any) => {
+
+        
+        if(response.role == 'ADMIN'){
+          this.role = 'ADMIN'
+        } else if(response.role == 'USER'){
+          this.role = 'USER'
+        }
+
+       }})
   }
   centerProfile(){
     //this.router.navigate(['center-profile'], { state: { centerId: this.center.id } })
@@ -48,6 +63,29 @@ export class BookCardComponent {
     return this.http.post<any>(this.apiHost+'/createOrderItem' , dto,{headers: this.headers});
   }
 
-  
+  public rateBook(rating:number){
+    console.log(rating)
+    var temp:RateDTO = new RateDTO();
+    temp.book = this.book.name;
+    temp.rating = rating;
+    console.log(rating)
+
+    this.rateBookRequest(temp).subscribe({
+      next: (response: any) => {
+        console.log(response)
+        alert('Succesfully rate '+this.book.name+' with '+rating)
+        window.location.reload();
+      },
+      error: err => {
+        alert('Error')
+      }
+    });
+
+    
+  }
+
+  public rateBookRequest(temp:RateDTO){
+    return this.http.post<any>('http://localhost:8080/books/rateBook' , temp,{headers: this.headers});
+  }
   
 }

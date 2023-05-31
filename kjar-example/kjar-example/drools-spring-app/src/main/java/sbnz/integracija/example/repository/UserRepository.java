@@ -1,7 +1,9 @@
 package sbnz.integracija.example.repository;
 
+import demo.facts.BookCategory;
 import demo.facts.Role;
 import demo.facts.User;
+import demo.facts.UserBookRatingDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -38,12 +40,17 @@ public class UserRepository {
 
     private void initUsers(){
         users = new ArrayList<>();
-        User user1 = new User("lazar@gmail.com","lazar","Lazar", "Mijatovic" , "566566", Role.USER);
+        ArrayList<BookCategory> genres = new ArrayList<>();
+        genres.add(BookCategory.NOVELS);
+
+        User user1 = new User("lazar@gmail.com","lazar","Lazar", "Mijatovic" , "566566", Role.USER, genres, 0.0, new ArrayList<UserBookRatingDTO>());
         User user2 = new User("none@gmail.com","none","none", "none" , "566566", Role.ADMIN );
+        User user3 = new User("user@gmail.com","user","Lazar", "Mijatovic" , "566566", Role.USER);
 
 
         this.users.add(user1);
         this.users.add(user2);
+        this.users.add(user3);
 
     }
 

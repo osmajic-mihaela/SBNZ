@@ -1,5 +1,5 @@
 package demo.facts;
 
 public enum Role {
-    USER, ADMIN
+    USER, ADMIN,UNREGISTERED
 }

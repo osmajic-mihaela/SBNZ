@@ -6,6 +6,15 @@
         <h3 class="date">Price: <span class="working-h">{{book.price}}</span></h3>
         <h3 class="date">Writter: <span class="working-h">{{book.writer}}</span></h3>
         <h3 class="date">Category: <span class="working-h">{{book.category}}</span></h3>
+        <h3 class="date">Rating: <span class="working-h">{{book.rating}}</span></h3>
+        <h2 class="date" *ngIf="role=='USER'"><h3>Rate this book:</h3>
+
+            <button (click)="rateBook(1)" [ngClass]="{ 'filled': rating >= 1 }">&#9733;</button>
+            <button (click)="rateBook(2)" [ngClass]="{ 'filled': rating >= 2 }">&#9733;</button>
+            <button (click)="rateBook(3)" [ngClass]="{ 'filled': rating >= 3 }">&#9733;</button>
+            <button (click)="rateBook(4)" [ngClass]="{ 'filled': rating >= 4 }">&#9733;</button>
+            <button (click)="rateBook(5)" [ngClass]="{ 'filled': rating === 5 }">&#9733;</button>
+          </h2>
       </div>
     </article>
 </div>

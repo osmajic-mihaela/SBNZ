@@ -9,6 +9,14 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.ThreadLocalRandom.*;
 
+import demo.facts.User;
+import demo.facts.Writer;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Comparator;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 
 global List<Book> popularBooks;
 
@@ -73,22 +81,25 @@ end
 
 rule "Preporuka - Popularna knjiga sa dobrim ili neutralnim ocenama"
 when
-    $book: Book(getIsPopular() == true, ratingCategory == BookRatingCategory.GOOD || ratingCategory == BookRatingCategory.NEUTRAL)
+    $u: User(role==Role.UNREGISTERED || (role==Role.USER && isNew==true && favoriteGenre.size()>0))
+    $book: Book(popularBooks != null && getIsPopular() == true, ratingCategory == BookRatingCategory.GOOD || ratingCategory == BookRatingCategory.NEUTRAL)
 then
     popularBooks.add($book);
 end
 
 rule "Preporuka - Nova knjiga"
 when
-    $book: Book(getIsNew() == true)
+    $u: User(role==Role.UNREGISTERED || (role==Role.USER && isNew==true && favoriteGenre.size()>0))
+    $book: Book(popularBooks != null && getIsNew() == true)
 then
     popularBooks.add($book);
 end
 
 rule "Uklanjanje loše ocenjenih knjiga"
 when
+    $u: User(role==Role.UNREGISTERED || (role==Role.USER && isNew==true && favoriteGenre.size()>0))
     $book: Book()
-    eval(popularBooks.size() > 10)
+    eval(popularBooks != null && popularBooks.size() > 10)
     eval($book.getRatingCategory() == BookRatingCategory.BAD)
 then
     popularBooks.remove($book);
@@ -96,10 +107,77 @@ end
 
 rule "Nasumičan izbor 10 knjiga"
 when
-    eval(popularBooks.size() > 10)
+    $u: User(role==Role.UNREGISTERED || (role==Role.USER && isNew==true && favoriteGenre.size()>0))
+    eval(popularBooks != null && popularBooks.size() > 10)
 then
     while (popularBooks.size() > 10) {
         popularBooks.remove(java.util.concurrent.ThreadLocalRandom.current().nextInt(popularBooks.size()));
     }
 end
 
+rule "Izbor pisaca po zanru"
+    agenda-group "rng"
+when
+    $u: User($oz: favoriteGenre, isNew==true, favoriteGenre.size()>0,role==Role.USER)
+    $p :Writer($zp : genres ,$o5 : rating)
+    Number(intValue == 0) from accumulate(
+                        $s: BookCategory(
+                             $s memberOf($zp)
+                        ) from $oz ,
+                            init(int count = 0;),
+                            action(count += 1;),
+                            reverse(count -= 1;),
+                            result(count)
+                       )
+then
+    delete($p);
+end
+
+rule "Brisanje pisaca ako ih ima vise od 4 koji imaju vecu ocenu"
+    agenda-group "rng"
+when
+    $u: User($oz: favoriteGenre, isNew==true, favoriteGenre.size()>0,role==Role.USER)
+    $p :Writer($o : rating)
+    $pisList: List(size>3) from accumulate(
+                                    $w: Writer(rating>=$o, this != $p),
+                                    collectList($w.getWriter())
+                         )
+then
+    delete($p);
+end
+
+
+rule "Brisanje knjiga koje nemaju tog pisca"
+    agenda-group "rng"
+when
+	$u: User($oz: favoriteGenre,role==Role.USER, isNew==true, favoriteGenre.size()>0)
+	$p1: Writer()
+	$p2: Writer()
+	$p3: Writer()
+	$p4: Writer()
+	$k: Book(category not memberOf($oz) || !(writer ==$p1.getWriter() || writer ==$p2.getWriter() || writer ==$p3.getWriter() || writer ==$p4.getWriter()))
+then
+	delete($k);
+end
+
+rule "Brisanje knjiga sa losijom  ocenom"
+    agenda-group "rng"
+when
+    $u: User( isNew==true, favoriteGenre.size()>0,role==Role.USER)
+	$k : Book($o : rating)
+	$pisList: List(size>9) from accumulate(
+                                        $w: Book(rating>=$o, this!=$k),
+                                        collectList($w.getName())
+                             )
+then
+	delete($k);
+end
+
+rule "Insert u listu"
+    agenda-group "rng"
+when
+    $u: User(isNew==true, favoriteGenre.size()>0,role==Role.USER)
+	$k : Book()
+then
+	popularBooks.add($k);
+end

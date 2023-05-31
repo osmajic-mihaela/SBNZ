@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sbnz.integracija.example.dto.BookRateDTO;
 import sbnz.integracija.example.service.BookService;
 import sbnz.integracija.example.service.UserService;
 
@@ -40,5 +41,19 @@ public class BookController {
     public ResponseEntity<List<Book>> getUnregisteredPopularBooks() {
         System.out.println("Pogodilo endpoint");
         return new ResponseEntity<>(bookService.getUnregisteredPopularBooks(), HttpStatus.OK);
+    }
+
+    @RequestMapping( value = "/registeredPopularBooks",method= RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Book>> getRegisteredPopularBooks() {
+        return new ResponseEntity<>(bookService.getRegisteredPopularBooks(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/rateBook", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> rateBook(@RequestBody BookRateDTO dto) {
+        Book ret = (Book) bookService.rateBook(dto);
+        if (ret != null)
+            return new ResponseEntity<>(ret, HttpStatus.OK);
+
+        return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
     }
 }

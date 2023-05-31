@@ -1,0 +1,26 @@
+package sbnz.integracija;
+
+import demo.facts.Book;
+import demo.facts.BookCategory;
+import demo.facts.Writer;
+import java.util.List;
+import java.util.ArrayList;
+
+
+rule "Omiljeni zanrovi pisca"
+when
+  $writer: Writer($books: books)
+  $category: BookCategory() from BookCategory.values() // Prolazak kroz sve moguće kategorije
+
+  $bookCount: Number(intValue > 0) from accumulate(
+    Book(category == $category) from $books,
+    count(1)
+  )
+
+  $totalBookCount: Number(intValue > 0) from $books.size()
+  eval(($bookCount.doubleValue() / $totalBookCount.doubleValue()) > 0.3)
+  not (BookCategory(name == $category.name) from $writer.getGenres())
+then
+  $writer.getGenres().add($category);
+  update($writer);
+end

@@ -9,4 +9,8 @@
 		<kbase name="classify-item-kbase" packages="sbnz.integracija">
 			<ksession name="classify-item-rules"/>
 		</kbase>
+
+		<kbase name="writer-kbase" packages="sbnz.integracija">
+			<ksession name="writer-rules"/>
+		</kbase>
 </kmodule>
