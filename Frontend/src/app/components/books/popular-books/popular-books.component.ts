@@ -31,12 +31,16 @@ export class PopularBooksComponent {
         console.log('useerr',response)
         this.loggedUser = response
         
-        if(response.role == 'ADMIN'){
+        if(response ==null|| response == undefined){
+          this.role = 'UNREGISTERED'
+          console.log('barabarr')
+        }
+        else if(response.role == 'ADMIN'){
           this.role = 'ADMIN'
         } else if(response.role == 'USER'){
           this.role = 'USER'
         }
-        console.log(this.role)
+        console.log("ROLE:",this.role)
 
         this.getPopularBooks().subscribe(
           {
@@ -54,10 +58,15 @@ export class PopularBooksComponent {
   }
 
   getPopularBooks(): Observable<Book[]> {
-    if (this.role == "USER")
-    return this.http.get<Book[]>(this.apiHost+"/unregisteredPopularBooks" , {headers: this.headers});
-    else
-      return this.http.get<Book[]>(this.apiHost+"/unregisteredPopularBooks" , {headers: this.headers});
+    if (this.loggedUser ==null)
+      {
+        console.log("UPAOOOO")
+        return this.http.get<Book[]>(this.apiHost+"/unregisteredPopularBooks" , {headers: this.headers});
+        
+      }
+      
+    else 
+      return this.http.get<Book[]>(this.apiHost+"/registeredPopularBooks" , {headers: this.headers});
   }
 
   public createBook(){
