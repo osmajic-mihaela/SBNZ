@@ -10,6 +10,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AuthGuard } from './service/auth.guard';
 import { BankAccountsComponent } from './bank-accounts/bank-accounts.component';
 import { ClientLoansComponent } from './client-loans/client-loans.component';
+import { ClientTransactionsComponent } from './client-transactions/client-transactions.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'loan-requests',
     component: ClientLoansComponent
+  },
+  {
+    path: 'transactions',
+    component: ClientTransactionsComponent
   }
 ]
 
@@ -37,7 +42,8 @@ const routes: Routes = [
     LoginComponent,
     NavbarComponent,
     BankAccountsComponent,
-    ClientLoansComponent
+    ClientLoansComponent,
+    ClientTransactionsComponent
   ],
   imports: [
     BrowserModule,
