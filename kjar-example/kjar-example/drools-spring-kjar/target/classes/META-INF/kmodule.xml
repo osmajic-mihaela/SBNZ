@@ -13,4 +13,8 @@
 		<kbase name="writer-kbase" packages="sbnz.integracija">
 			<ksession name="writer-rules"/>
 		</kbase>
+
+		<kbase name="user-kbase" packages="sbnz.integracija">
+			<ksession name="user-rules"/>
+		</kbase>
 </kmodule>

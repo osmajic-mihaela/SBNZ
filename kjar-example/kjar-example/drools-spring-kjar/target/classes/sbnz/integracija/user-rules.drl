@@ -2,9 +2,12 @@ package sbnz.integracija;
 
 import demo.facts.Book;
 import demo.facts.BookCategory;
+import demo.facts.ShoppingDto;
 import demo.facts.Writer;
 import java.util.List;
 import java.util.ArrayList;
+
+global List<String> writers;
 
 rule "User je nov"
 when
@@ -18,4 +21,40 @@ when
     $user: User(numberOfRatings>=10)
 then
   modify($user){setNew(false)}
+end
+
+rule "Korisnikovi interesantni zanrovi"
+when
+  $user: User($shoppings:shoppedBooks)
+  $shoppedDtos: List(size > 0) from collect(ShoppingDto(date.after(new Date(System.currentTimeMillis() - (6L * 30 * 24 * 60 * 60 * 1000)))) from $shoppings)
+  $books: List(size > 0) from collect(Book() from $user.getShoppedBoooks())
+  $category: BookCategory() from BookCategory.values()
+
+  $bookCount: Number(intValue > 0) from accumulate(
+    Book(category == $category) from $books,
+    count(1)
+  )
+
+  $totalBookCount: Number(intValue > 0) from $books.size()
+  eval(($bookCount.doubleValue() / $totalBookCount.doubleValue()) > 0.3)
+  not (BookCategory(name == $category.name) from $user.getInterestedGenres())
+then
+  $user.getInterestedGenres().add($category);
+  update($user);
+end
+
+rule "Korisnikovi interesantni pisci"
+when
+  $user: User($shoppings:shoppedBooks)
+  $shoppedDtos: List(size > 0) from collect(ShoppingDto(date.after(new Date(System.currentTimeMillis() - (6L * 30 * 24 * 60 * 60 * 1000)))) from $shoppings)
+  $books: List(size > 0) from collect(Book() from $user.getShoppedBoooks())
+  $w: String() from writers
+  $writerCount: Number(intValue > 2) from accumulate(
+    Book(writer == $w) from $books,
+    count(1)
+  )
+  not(String(this == $w) from $user.getInterestedWriters())
+then
+  $user.getInterestedWriters().add($w);
+  update($user);
 end

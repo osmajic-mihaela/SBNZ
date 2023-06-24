@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 global List<Book> popularBooks;
 
-/*rule "Nova knjiga - restart"
+rule "Nova knjiga - restart"
 salience 99999
 when
     $book: Book()
@@ -181,13 +181,27 @@ when
 	$k : Book()
 then
 	popularBooks.add($k);
-end*/
+end
+
+rule "Knjige po preferenci korisnika"
+ agenda-group "rog"
+ lock-on-active true
+when
+  $user: User($authors: interestedWriters, $genres:interestedGenres,role==Role.USER,isNew==false)
+  $book: Book(writer memberOf $authors || category memberOf $genres)
+then
+    if($book.getPoints()==0){
+      modify($book){setPoints($book.getPoints()+1)};
+      $book.cat1 = true;
+      System.out.println("The book " + $book.getName() + " is user's liked books.");
+    }
+end
 
 rule "Similar Books"
  agenda-group "rog"
  lock-on-active true
 when
-  $user: User($userFavoriteBooks: likedBook)
+  $user: User($userFavoriteBooks: likedBook,role==Role.USER)
   $book: Book($ratingDtos: dtos) from $userFavoriteBooks
   $ub: UserBookRatingDTO() from $ratingDtos
 
@@ -214,7 +228,51 @@ when
              )
 
 then
-  modify($similarBook){setPoints($similarBook.getPoints()+1)};
-  System.out.println("The book " + $similarBook.getName() + " is similar to one of the user's liked books.");
-  popularBooks.add($similarBook);
+    if(($similarBook.getPoints()==0 && $similarBook.cat1==false)||($similarBook.getPoints()==1 && $similarBook.cat1==true)){
+      modify($similarBook){setPoints($similarBook.getPoints()+1)};
+      $similarBook.cat2 = true;
+      System.out.println("The book " + $book.getName() + " is user's liked books.");
+    }
+end
+
+
+rule "Inserti"
+agenda-group "rog"
+when
+	$k : Book(points>0)
+then
+	popularBooks.add($k);
+end
+
+
+rule "Sortiranje knjiga po bodovima"
+agenda-group "rog"
+when
+  eval(popularBooks.size() <= 20)
+then
+  Collections.sort(popularBooks, (b1, b2) -> Integer.compare(((Book)b2).getPoints(), ((Book)b1).getPoints()));
+end
+
+rule "Reset popular"
+agenda-group "rog"
+when
+	eval(popularBooks.size() > 20)
+then
+System.out.println("upalo ovde");
+	popularBooks.clear();
+	System.out.println("reset popular" + popularBooks.size());
+end
+
+
+rule "Sortiranje novih knjiga po bodovima"
+ agenda-group "rog"
+when
+  $books: List(size > 0) from collect(Book(points>0 && isNew==true))
+  eval(popularBooks.size() == 0)
+then
+  Collections.sort($books, (b1, b2) -> Integer.compare(((Book) b2).getPoints(), ((Book) b1).getPoints()));
+  for(Object b: $books.subList(0, Math.min(20, $books.size()))){
+    popularBooks.add((Book)b);
+  }
+  System.out.println("kraj"+popularBooks.size());
 end

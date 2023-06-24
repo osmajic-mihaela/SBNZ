@@ -75,6 +75,8 @@ public class Book implements Serializable {
         this.dtos = new ArrayList<>();
         this.points =0;
         this.writerObject = writerObject;
+        this.cat1 = false;
+        this.cat2 = false;
     }
 
     public Book(String name, Double price, String writer, BookCategory category, Date date, boolean isNew, boolean isPopular, double rating,int numberOfRatings ,BookRatingCategory bookRatingCategory, Date bookReleaseDate) {
@@ -92,8 +94,10 @@ public class Book implements Serializable {
         this.dtos = new ArrayList<>();
         this.points =0;
         this.writerObject = null;
+        this.cat1 = false;
+        this.cat2 = false;
     }
-    public Book(String name, Double price, String writer, BookCategory category, Date date, boolean isNew, boolean isPopular, double rating,int numberOfRatings ,BookRatingCategory bookRatingCategory, Date bookReleaseDate, int points) {
+    public Book(String name, Double price, String writer, BookCategory category, Date date, boolean isNew, boolean isPopular, double rating,int numberOfRatings ,BookRatingCategory bookRatingCategory, Date bookReleaseDate, int points,boolean cat1,boolean cat2) {
         this.name = name;
         this.price = price;
         this.writer = writer;
@@ -108,6 +112,8 @@ public class Book implements Serializable {
         this.dtos = new ArrayList<>();
         this.points =points;
         this.writerObject = null;
+        this.cat1 = cat1;
+        this.cat2 = cat2;
     }
 
     public Book(Book b) {
@@ -125,6 +131,8 @@ public class Book implements Serializable {
         this.dtos = b.dtos;
         this.points =b.points;
         this.writerObject = null;
+        this.cat1 = b.cat1;
+        this.cat2 = b.cat2;
     }
 
     public Book() {
@@ -241,6 +249,9 @@ public class Book implements Serializable {
     public void setWriterObject(Writer writerObject) {
         this.writerObject = writerObject;
     }
+
+    public boolean cat1;
+    public boolean cat2;
 
     @Override
     public boolean equals(Object obj) {

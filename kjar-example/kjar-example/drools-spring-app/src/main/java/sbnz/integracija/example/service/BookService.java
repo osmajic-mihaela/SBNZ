@@ -86,6 +86,7 @@ public class BookService {
         System.out.println(book.getName());
         double rating = book.getRating();
         int nmb= book.getNumberOfRatings();
+
         book.setNumberOfRatings(nmb+1);
         System.out.println(nmb+" nmb");
         System.out.println(rating+" rating");
@@ -93,7 +94,6 @@ public class BookService {
         if(nmb!=0){
             book.setRating((rating*nmb+ (int)dto.rating)/ book.getNumberOfRatings());
             System.out.println(dto.rating+"u ifuuu");
-
         }else{
             book.setRating(dto.rating);
         }
@@ -118,8 +118,19 @@ public class BookService {
         }
 
         Writer wr = (Writer) getWriter(book.getWriter());
-        wr.setRating(wr.getRating()-rating+book.getRating());
+        if(wr!=null){
+            wr.setRating(wr.getRating()-rating+book.getRating());
+        }
 
+        ArrayList<String> w = new ArrayList<>();
+        for(Writer mmm: repository.getWriters()){
+            w.add(mmm.getWriter());
+        }
+        KieSession kieSession = kieContainer.newKieSession("user-rules");
+        kieSession.setGlobal("writers", w);
+        kieSession.insert(logged);
+        kieSession.fireAllRules();
+        kieSession.dispose();
 
         if (book == null) {
             return null;
@@ -150,6 +161,29 @@ public class BookService {
             kieSession.insert(wr);
             kieSession.fireAllRules();
             kieSession.dispose();
+
+            ArrayList<String> w = new ArrayList<>();
+            for(Writer mmm: repository.getWriters()){
+                w.add(mmm.getWriter());
+            }
+
+            KieSession kieSession1 = kieContainer.newKieSession("user-rules");
+            kieSession1.setGlobal("writers", w);
+            kieSession1.insert(getLoggedUser());
+            kieSession1.fireAllRules();
+            kieSession1.dispose();
+
+
+            List<Book> popularBooks = new ArrayList<Book>();
+            KieSession kieSession2 = kieContainer.newKieSession("book-recommendation-rules");
+            kieSession2.setGlobal("popularBooks", popularBooks);
+            User unregistered = new User("unregistered", "unregistered", "unregistered", "unregistered", "unregistered", Role.UNREGISTERED);
+            kieSession2.insert(unregistered);
+            for(Book b:books){
+                kieSession2.insert(b);
+            }
+            kieSession2.fireAllRules();
+            kieSession2.dispose();
 
             System.out.println(wr.getGenres().size());
             for(BookCategory c:wr.getGenres())
@@ -185,10 +219,12 @@ public class BookService {
         List<Book> books = getBooks();
         List<Book> popularBooks = new ArrayList<Book>();
 
-        KieSession kieSession = kieContainer.newKieSession("book-recommendation-rules");
+
 
         User u = getLoggedUser();
         if(u.getIsNew() == true && u.getFavoriteGenre().size()>0){
+            KieSession kieSession = kieContainer.newKieSession("book-recommendation-rules");
+            System.out.println("Usloo");
             kieSession.setGlobal("popularBooks", popularBooks);
 
             for(Book book:books){
@@ -196,6 +232,7 @@ public class BookService {
                 kieSession.insert(b);
             }
             for(Writer w:getWriters()){
+                System.out.println(w.getGenres().size());
                 kieSession.insert(new Writer(w));
             }
             kieSession.insert(u);
@@ -213,7 +250,10 @@ public class BookService {
             for(Book b: popularBooks){
                 System.out.println(b.getName());
             }
-        }else{
+        }else if(u.getIsNew() == true  && u.getFavoriteGenre().size()==0){
+            popularBooks = getUnregisteredPopularBooks();
+        } else{
+            KieSession kieSession = kieContainer.newKieSession("book-recommendation-rules");
             kieSession.setGlobal("popularBooks", popularBooks);
 
             for(Book book:books){
