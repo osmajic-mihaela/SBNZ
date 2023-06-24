@@ -1,0 +1,26 @@
+<div class="container d-flex justify-content-center">
+    <div class="col-lg-6">
+        <form #registrationForm="ngForm" (ngSubmit)="onRegister(registrationForm)">
+            <div class="form-group">
+                <label for="firstName">First name</label>
+                <input type="text" class="form-control" id="firstName" ngModel name="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last name</label>
+                <input type="text" class="form-control" id="lastName" ngModel name="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" ngModel name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" ngModel name="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" [disabled]="!registrationForm.valid">Register</button>
+                <button class="btn btn-secondary" (click)="onCancel(registrationForm)">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
