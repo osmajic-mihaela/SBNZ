@@ -30,6 +30,16 @@
         <input type="password" [(ngModel)]="confirmPassword" class="form-control" id="confirmPassword">
       </div>
       <div>
+        <label>Select genres</label>
+        <div *ngFor="let option of options">
+          <label>
+            <input type="checkbox" [(ngModel)]="option.checked">
+            {{ option.label }}
+          </label>
+        </div>
+      </div>
+      
+      <div>
         <p *ngIf="showMsg" style="color: red;">{{errorMsg}}</p>
       </div>
       <button type="submit" class="btn btn-primary" (click)="register()">Register</button>
