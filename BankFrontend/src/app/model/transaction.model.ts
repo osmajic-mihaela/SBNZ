@@ -4,12 +4,15 @@ export class Transaction {
         public clientId: number = 0,
         public clientFirstName: string = '',
         public cilentLastName: string = '',
+        public accountId: number = 0,
         public clientBankAccount: number = 0,
         public cardNumber: number = 0,
         public expirationDate: Date = new Date(),
         public cvv: number = 0,
         public beneficiarBankAccount: number = 0,
         public amountTrans: number = 0,
+        public transactionDateTime: Date = new Date(),
+        public location: string = '',
         public isSuspicious: boolean = false
     ) { }
 }

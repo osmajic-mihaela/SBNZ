@@ -9,7 +9,7 @@ import { TransactionService } from '../service/transaction.service';
 })
 export class ClientTransactionsComponent implements OnInit {
 
-  public transactions: Transaction[] = [new Transaction(1, 2, 'Pera', 'Peric', 1234, 5678, new Date(), 654, 123456, 1000, true)];
+  public transactions: Transaction[] = [];
 
   constructor(
     private transactionService: TransactionService
