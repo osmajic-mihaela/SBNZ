@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AuthGuard } from './service/auth.guard';
 import { BankAccountsComponent } from './bank-accounts/bank-accounts.component';
+import { ClientLoansComponent } from './client-loans/client-loans.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'bank-accounts',
     component: BankAccountsComponent
+  },
+  {
+    path: 'loan-requests',
+    component: ClientLoansComponent
   }
 ]
 
@@ -31,7 +36,8 @@ const routes: Routes = [
     RegistrationComponent,
     LoginComponent,
     NavbarComponent,
-    BankAccountsComponent
+    BankAccountsComponent,
+    ClientLoansComponent
   ],
   imports: [
     BrowserModule,

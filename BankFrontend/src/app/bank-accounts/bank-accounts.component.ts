@@ -51,6 +51,7 @@ export class BankAccountsComponent implements OnInit {
   closeModal(form: NgForm): void {
     const modal = document.getElementById('addModal');
     if (modal != null) {
+      console.log('hey');
       modal.style.display = 'none';
     }
     form.reset();

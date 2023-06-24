@@ -26,13 +26,13 @@ export class BankAccountService {
     }
 
     createAccount(dto: CreateBankAccountDto) {
-        this.http.post(`${this.apiHost} + /create`, dto, { headers: this.headers }).subscribe({
-            next: () => {
-                alert('Successfully created the account!');
-            },
-            error: () => {
-                alert('There was an error with creating your account!');
-            }
-        })
+        // this.http.post(`${this.apiHost} + /create`, dto, { headers: this.headers }).subscribe({
+        //     next: () => {
+        //         alert('Successfully created the account!');
+        //     },
+        //     error: () => {
+        //         alert('There was an error with creating your account!');
+        //     }
+        // })
     }
 }
