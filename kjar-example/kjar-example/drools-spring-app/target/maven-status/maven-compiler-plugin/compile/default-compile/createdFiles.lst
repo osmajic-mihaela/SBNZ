@@ -1,4 +1,5 @@
 sbnz\integracija\example\repository\OrderRepository.class
+sbnz\integracija\example\dto\OrderItemDTO.class
 sbnz\integracija\example\dto\BookRateDTO.class
 sbnz\integracija\example\SampleApp.class
 sbnz\integracija\example\service\UserService.class
@@ -6,6 +7,7 @@ sbnz\integracija\example\dto\OrderDTO.class
 sbnz\integracija\example\service\OrderService.class
 sbnz\integracija\example\dto\LoginDTO.class
 sbnz\integracija\example\service\BookService.class
+sbnz\integracija\example\repository\BookRepository.class
 sbnz\integracija\example\repository\UserRepository.class
 sbnz\integracija\example\SampleAppService.class
 sbnz\integracija\example\service\OrderItemService.class

@@ -15,18 +15,28 @@ public class User implements Serializable{
     private String phoneNum;
 
     private Role role;
+
+    private Date birthDate;
+    private double monthlyWage;
+    private String employmentType;
+    private Date employedUntil;
+
+    //dodaj listu paketa kad napravis
+
     public User() {
     }
-
-
-    public User(String email, String password, String name, String surname, String phoneNum, Role role) {
+    public User(String email, String password, String name, String surname, String phoneNum, Role role,
+                Date birthDate, double monthlyWage, String employmentType, Date employedUntil) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.phoneNum = phoneNum;
         this.role=role;
-
+        this.birthDate = birthDate;
+        this.monthlyWage = monthlyWage;
+        this.employmentType = employmentType;
+        this.employedUntil = employedUntil;
     }
 
     public String getEmail() {
@@ -75,5 +85,37 @@ public class User implements Serializable{
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public double getMonthlyWage() {
+        return monthlyWage;
+    }
+
+    public void setMonthlyWage(double monthlyWage) {
+        this.monthlyWage = monthlyWage;
+    }
+
+    public String getEmploymentType() {
+        return employmentType;
+    }
+
+    public void setEmploymentType(String employmentType) {
+        this.employmentType = employmentType;
+    }
+
+    public Date getEmployedUntil() {
+        return employedUntil;
+    }
+
+    public void setEmployedUntil(Date employedUntil) {
+        this.employedUntil = employedUntil;
     }
 }
