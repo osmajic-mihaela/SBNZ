@@ -14,9 +14,9 @@ public class AccountPackage {
     private double balance;
     private Date expirationDate;
 
-    AccountPackage (){}
+    public AccountPackage(){}
 
-    AccountPackage(String clientId, String clientFirstName, String clientLastName, int cardNumber, int accountNumber, int cvv, double balance, Date expirationDate){
+    public AccountPackage(String clientId, String clientFirstName, String clientLastName, int cardNumber, int accountNumber, int cvv, double balance, Date expirationDate){
         this.id = UUID.randomUUID();
         this.clientId= clientId;
         this.clientFirstName = clientFirstName;
@@ -29,7 +29,7 @@ public class AccountPackage {
 
     }
 
-    AccountPackage(AccountPackage acc){
+    public AccountPackage(AccountPackage acc){
         this.id = acc.getId();
         this.clientId= acc.getClientId();
         this.clientFirstName = acc.getClientFirstName();

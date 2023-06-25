@@ -7,8 +7,16 @@ import demo.facts.User;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import sbnz.integracija.example.repository.OrderItemRepository;
+import org.springframework.web.client.RestTemplate;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 import sbnz.integracija.example.repository.OrderRepository;
 import sbnz.integracija.example.repository.UserRepository;
 
@@ -70,6 +78,28 @@ public class OrderService {
         }else{
             order.setOrderPrice(priceWithItems);
         }
+
+        //obrada transkacije
+        String url = "https://localhost:8081/transactions/";
+        var restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody;
+        try {
+            //promeni ovo u transactions
+            requestBody = objectMapper.writeValueAsString(order);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+        String response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class).getBody();
+        System.out.println("Transaction response: " + response);
+        /////////////////////////////////////////////////
 
         User u = userRepository.getLoggedUser();
         for(OrderItem item:order.getItems()){
