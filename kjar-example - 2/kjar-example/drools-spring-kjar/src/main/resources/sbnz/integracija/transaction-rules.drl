@@ -56,5 +56,19 @@ then
     System.out.println("Transaction " + $currentTransaction.getId() + " is suspicious because amount is above user average.");
 end
 
+rule "Unusual location for transaction"
+when
+  $user : User($userTransactions: transactions,role==Role.USER)
+  $currentTransaction: Transaction(
+    safeTransaction==false,
+    $locationIP: locationIP
+  )
+  not (Transaction(locationIP == $locationIP, id!=$currentTransaction.getId()) from $userTransactions)
+then
+   modify($currentTransaction){setSuspicious(true)};
+      modify($currentTransaction){setSafeTransaction(true)};
+      System.out.println("Transaction " + $currentTransaction.getId() + " is suspicious because location is unusual.");
+end
+
 
 
