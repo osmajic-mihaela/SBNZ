@@ -1,4 +1,29 @@
 <org.drools.core.rule.KieModuleMetaInfo>
-  <typeMetaInfos/>
-  <rulesByPackage/>
+  <typeMetaInfos>
+    <entry>
+      <string>demo.facts.Transaction</string>
+      <org.drools.core.rule.TypeMetaInfo>
+        <kind>CLASS</kind>
+        <role>FACT</role>
+        <isDeclaredType>false</isDeclaredType>
+      </org.drools.core.rule.TypeMetaInfo>
+    </entry>
+    <entry>
+      <string>demo.facts.User</string>
+      <org.drools.core.rule.TypeMetaInfo>
+        <kind>CLASS</kind>
+        <role>FACT</role>
+        <isDeclaredType>false</isDeclaredType>
+      </org.drools.core.rule.TypeMetaInfo>
+    </entry>
+  </typeMetaInfos>
+  <rulesByPackage>
+    <entry>
+      <string>sbnz.integracija</string>
+      <set>
+        <string>Upada u pravila</string>
+        <string>Above average user transaction amount</string>
+      </set>
+    </entry>
+  </rulesByPackage>
 </org.drools.core.rule.KieModuleMetaInfo>

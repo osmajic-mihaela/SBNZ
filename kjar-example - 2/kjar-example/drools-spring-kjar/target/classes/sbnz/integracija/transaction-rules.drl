@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 rule "Upada u pravila"
 when
-
+    $user: User($userTransactions: transactions,role==Role.USER)
 then
     System.out.println("Upada u pravila");
 end
