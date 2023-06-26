@@ -23,6 +23,7 @@
       <set>
         <string>Upada u pravila</string>
         <string>Above average user transaction amount</string>
+        <string>Suspicious transaction with big amount over night</string>
       </set>
     </entry>
   </rulesByPackage>

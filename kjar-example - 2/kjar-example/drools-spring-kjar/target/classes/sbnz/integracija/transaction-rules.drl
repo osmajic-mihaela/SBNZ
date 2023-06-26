@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.ThreadLocalRandom.*;
+import java.time.LocalDateTime;
 
 import demo.facts.User;
 import demo.facts.Transaction;
@@ -16,9 +17,22 @@ import java.util.stream.Collectors;
 
 rule "Upada u pravila"
 when
-    $user: User($userTransactions: transactions,role==Role.USER)
+
 then
     System.out.println("Upada u pravila");
+end
+
+rule "Suspicious transaction with big amount over night"
+when
+    $currentTransaction : Transaction(safeTransaction==false,
+            amountTrans > 10000,
+            transactionDate >= LocalDateTime.of($currentTransaction.transactionDate.getYear(), $currentTransaction.transactionDate.getMonth(), $currentTransaction.transactionDate.getDayOfMonth(), 23, 0, 0) ||
+            transactionDate <= LocalDateTime.of($currentTransaction.transactionDate.getYear(), $currentTransaction.transactionDate.getMonth(), $currentTransaction.transactionDate.getDayOfMonth(), 6, 0, 0)
+          )
+then
+    modify($currentTransaction){setSuspicious(true)};
+    modify($currentTransaction){setSafeTransaction(true)};
+    System.out.println("Transaction " + $currentTransaction.getId() + " is suspicious because amount is big and transaction is over night.");
 end
 
 rule "Above average user transaction amount"
@@ -38,6 +52,9 @@ when
     eval($currentTransaction.getAmountTrans() > $avgAmount.doubleValue()*1.5)
 then
     modify($currentTransaction){setSuspicious(true)};
+    modify($currentTransaction){setSafeTransaction(true)};
     System.out.println("Transaction " + $currentTransaction.getId() + " is suspicious because amount is above user average.");
 end
+
+
 

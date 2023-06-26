@@ -42,13 +42,8 @@ public class TransactionService {
         boolean validation= transactionValidation(transaction);
         transaction.setValidateTransaction(validation);
 
-        AccountPackage accPackage = accountPackageRepository.getPackageByAccountNumber(transaction.getSenderAccountNumber());
-        AccountPackage benefacierPackage = accountPackageRepository.getPackageByAccountNumber(transaction.getBeneficiarAccountNumber());
-        accPackage.setBalance(accPackage.getBalance() - transaction.getAmountTrans());
-        benefacierPackage.setBalance(benefacierPackage.getBalance() + transaction.getAmountTrans());
-
         //pravila za detekciju prevare
-        if(true){
+        if(validation){
             System.out.println("detekcija prevare");
             KieSession kieSession = kieContainer.newKieSession("transaction-rules");
             kieSession.insert(transaction);
@@ -56,6 +51,10 @@ public class TransactionService {
             kieSession.fireAllRules();
             kieSession.dispose();
 
+            AccountPackage accPackage = accountPackageRepository.getPackageByAccountNumber(transaction.getSenderAccountNumber());
+            AccountPackage benefacierPackage = accountPackageRepository.getPackageByAccountNumber(transaction.getBeneficiarAccountNumber());
+            accPackage.setBalance(accPackage.getBalance() - transaction.getAmountTrans());
+            benefacierPackage.setBalance(benefacierPackage.getBalance() + transaction.getAmountTrans());
 
             repository.addTransaction(transaction);
         }
