@@ -17,11 +17,13 @@ public class TransactionRepository {
         return instance;
     }
 
-    private TransactionRepository() {
+    public TransactionRepository() {
+
         initTransaction();
     }
 
     private void initTransaction(){
+
         transactions = new ArrayList<>();
     }
 

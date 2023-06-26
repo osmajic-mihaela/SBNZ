@@ -18,6 +18,7 @@ public class TransactionService {
 
         //pravila za detekciju prevare
 
+        transaction.setValidateTransaction(true);
         repository.addTransaction(transaction);
         return transaction;
     }

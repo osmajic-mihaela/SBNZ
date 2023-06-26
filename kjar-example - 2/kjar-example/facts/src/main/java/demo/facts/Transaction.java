@@ -25,6 +25,7 @@ public class Transaction {
     private double amountTrans;
     private InetAddress locationIP;
     private boolean isSuspicious;
+    private boolean validateTransaction;
 
 
     public Transaction(){}
@@ -45,6 +46,7 @@ public class Transaction {
         this.amountTrans = amountTrans;
         this.locationIP = locationIP;
         this.isSuspicious = isSuspicious;
+        this.validateTransaction = false;
     }
 
     //za seed podatke
@@ -66,6 +68,7 @@ public class Transaction {
         this.amountTrans = amountTrans;
         this.locationIP = locationIP;
         this.isSuspicious = isSuspicious;
+        this.validateTransaction = false;
     }
 
 
@@ -180,5 +183,13 @@ public class Transaction {
 
     public void setSuspicious(boolean suspicious) {
         isSuspicious = suspicious;
+    }
+
+    public boolean isValidateTransaction() {
+        return validateTransaction;
+    }
+
+    public void setValidateTransaction(boolean validateTransaction) {
+        this.validateTransaction = validateTransaction;
     }
 }

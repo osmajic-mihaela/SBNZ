@@ -5,7 +5,7 @@ export class Order {
     orderId?: string;
     itemsIDs:string[];
     items:OrderItem[];
-    orderPrice?:number;
+    orderPrice:number;
     userEmail?:string;
     orderDate?:Date;
     discount?:number;

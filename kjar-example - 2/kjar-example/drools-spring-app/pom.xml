@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>sbnz.integracija</groupId>
-  <artifactId>drools-spring-app</artifactId>
+  <groupId>sbnz.integracija2</groupId>
+  <artifactId>drools-spring-app2</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Drools Spring App</name>
+  <name>Drools Spring App2</name>
   
   <parent>
         <groupId>org.springframework.boot</groupId>
@@ -56,7 +56,7 @@
         
         <dependency>
             <groupId>demo</groupId>
-            <artifactId>facts</artifactId>
+            <artifactId>facts2</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -68,7 +68,10 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+
+
     </dependencies>
+
 
     <properties>
         <java.version>11</java.version>

@@ -5,6 +5,7 @@ sbnz\integracija\example\dto\LoginDTO.class
 sbnz\integracija\example\repository\UserRepository.class
 sbnz\integracija\example\controller\TransactionController.class
 sbnz\integracija\example\SampleAppService.class
+sbnz\integracija\example\dto\TransactionDTO.class
 sbnz\integracija\example\service\AccountPackageService.class
 sbnz\integracija\example\controller\AccountPackageController.class
 sbnz\integracija\example\repository\AccountPackageRepository.class

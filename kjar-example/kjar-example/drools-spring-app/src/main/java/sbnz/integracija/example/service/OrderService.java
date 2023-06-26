@@ -1,25 +1,29 @@
 package sbnz.integracija.example.service;
 
-import demo.facts.Order;
-import demo.facts.OrderItem;
-import demo.facts.ShoppingDto;
-import demo.facts.User;
+import demo.facts.*;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
+
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-
 import sbnz.integracija.example.repository.OrderRepository;
 import sbnz.integracija.example.repository.UserRepository;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.net.InetAddress;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -52,6 +56,36 @@ public class OrderService {
         return repository.getOrdersByUserSortedByDate(email);
     }
 
+    public Order addOrderCard(Order order, Transaction transaction)
+    {
+        KieSession kieSession = kieContainer.newKieSession("classify-item-rules");
+
+        for(OrderItem item:order.getItems()){
+            kieSession.insert(item);
+        }
+
+        kieSession.insert(order);
+        kieSession.fireAllRules();
+        kieSession.dispose();
+
+        double priceWithItems =0.0;
+        double priceWithOrder =0.0;
+
+        for(OrderItem item: order.getItems()){
+            priceWithItems += item.calculateItemPriceWithDiscount(item.getDiscount());
+        }
+
+        priceWithOrder = order.calculatePriceWithDiscount(order.getDiscount());
+
+        if(priceWithOrder<priceWithItems){
+            order.setOrderPrice(priceWithOrder);
+        }else{
+            order.setOrderPrice(priceWithItems);
+        }
+
+        return order;
+    }
+
     public Order addOrder(Order order)
     {
         KieSession kieSession = kieContainer.newKieSession("classify-item-rules");
@@ -79,28 +113,6 @@ public class OrderService {
             order.setOrderPrice(priceWithItems);
         }
 
-        //obrada transkacije
-        String url = "https://localhost:8081/transactions/";
-        var restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody;
-        try {
-            //promeni ovo u transactions
-            requestBody = objectMapper.writeValueAsString(order);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-        String response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class).getBody();
-        System.out.println("Transaction response: " + response);
-        /////////////////////////////////////////////////
-
         User u = userRepository.getLoggedUser();
         for(OrderItem item:order.getItems()){
             ShoppingDto dto = new ShoppingDto();
@@ -112,5 +124,7 @@ public class OrderService {
         repository.addOrder(order);
         return order;
     }
+
+
 
 }
