@@ -25,7 +25,7 @@ public class TransactionController {
         System.out.println("UPAOOO U METODUUUUU");
         System.out.println(dto.getLocationIP());
         Transaction transaction = new Transaction(UUID.randomUUID(), dto.getTransactionDate(), dto.getSenderEmail(),
-                dto.getSenderFirstName(), dto.getSenderLastName(), null, dto.getSenderAccountNumber(), dto.getSenderCardNumber(), dto.getBeneficiarAccountNumber(), dto.getCardExpirationDate(), dto.getCvv(), dto.getAmountTrans(), dto.getLocationIP(), dto.isSuspicious());
+                dto.getSenderFirstName(), dto.getSenderLastName(), null, dto.getSenderAccountNumber(), dto.getSenderCardNumber(), dto.getBeneficiarAccountNumber(), dto.getCardExpirationDate(), dto.getCvv(), dto.getAmountTrans(), dto.getLocationIP(), dto.isSuspicious(), false);
         var ret = transactionService.addTransaction(transaction);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
