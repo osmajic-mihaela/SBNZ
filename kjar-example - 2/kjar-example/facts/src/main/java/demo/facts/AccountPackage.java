@@ -42,7 +42,8 @@ public class AccountPackage {
     }
 
     // za seed podatke
-    AccountPackage(UUID id,String clientId, String clientFirstName, String clientLastName, int cardNumber, int accountNumber, int cvv, double balance, Date expirationDate){
+    public AccountPackage(UUID id,String clientId, String clientFirstName, String clientLastName, int cardNumber,
+                          int accountNumber, int cvv, double balance, Date expirationDate){
         this.id = id;
         this.clientId= clientId;
         this.clientFirstName = clientFirstName;

@@ -23,6 +23,8 @@ public class User implements Serializable{
 
     private List<AccountPackage> accountPackages;
 
+    private List<Transaction> transactions;
+
     public User() {
     }
     public User(String email, String password, String name, String surname, String phoneNum, Role role,
@@ -38,6 +40,7 @@ public class User implements Serializable{
         this.employmentType = employmentType;
         this.employedUntil = employedUntil;
         this.accountPackages = new ArrayList<>();
+        this.transactions = new ArrayList<>();
     }
 
     public String getEmail() {
@@ -126,5 +129,13 @@ public class User implements Serializable{
 
     public void setAccountPackages(List<AccountPackage> accountPackages) {
         this.accountPackages = accountPackages;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

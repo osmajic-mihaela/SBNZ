@@ -26,6 +26,7 @@ public class Transaction {
     private InetAddress locationIP;
     private boolean isSuspicious;
     private boolean validateTransaction;
+    private boolean safeTransaction;
 
 
     public Transaction(){}
@@ -47,13 +48,14 @@ public class Transaction {
         this.locationIP = locationIP;
         this.isSuspicious = isSuspicious;
         this.validateTransaction = false;
+        this.safeTransaction = false;
     }
 
     //za seed podatke
     public Transaction(UUID id, LocalDateTime transactionDate, String senderEmail, String senderFirstName,
                        String senderLastName, UUID senderAccountId, int senderAccountNumber, int senderCardNumber,
                        int beneficiarAccountNumber, Date cardExpirationDate, int cvv, double amountTrans,
-                       InetAddress locationIP, boolean isSuspicious) {
+                       InetAddress locationIP, boolean isSuspicious, boolean validateTransaction) {
         this.id = id;
         this.transactionDate = transactionDate;
         this.senderEmail = senderEmail;
@@ -68,7 +70,8 @@ public class Transaction {
         this.amountTrans = amountTrans;
         this.locationIP = locationIP;
         this.isSuspicious = isSuspicious;
-        this.validateTransaction = false;
+        this.validateTransaction = validateTransaction;
+        this.safeTransaction = false;
     }
 
 
@@ -191,5 +194,13 @@ public class Transaction {
 
     public void setValidateTransaction(boolean validateTransaction) {
         this.validateTransaction = validateTransaction;
+    }
+
+    public boolean isSafeTransaction() {
+        return safeTransaction;
+    }
+
+    public void setSafeTransaction(boolean safeTransaction) {
+        this.safeTransaction = safeTransaction;
     }
 }
