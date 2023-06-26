@@ -45,6 +45,10 @@ public class AccountPackageRepository {
         return packages.stream().filter(u->u.getId().equals(id)).findFirst().orElse(null);
     }
 
+    public AccountPackage getPackageByAccountNumber(int id)
+    {
+        return packages.stream().filter(u->u.getAccountNumber()==id).findFirst().orElse(null);
+    }
 
     public ArrayList<AccountPackage> getPackageByUser(String email)
     {
