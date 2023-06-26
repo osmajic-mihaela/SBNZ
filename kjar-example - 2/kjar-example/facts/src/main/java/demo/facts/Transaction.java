@@ -7,7 +7,6 @@ import java.net.InetAddress;
 
 
 public class Transaction {
-
     private UUID id;
     private LocalDateTime transactionDate;
     //pos

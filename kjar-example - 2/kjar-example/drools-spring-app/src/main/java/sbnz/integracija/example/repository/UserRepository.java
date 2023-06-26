@@ -63,4 +63,11 @@ public class UserRepository {
         return this.loggedUser = null;
     }
 
+    public User getUser(String clientId) {
+        for(User u : users){
+            if(u.getEmail().equals(clientId))
+                return u;
+        }
+        return null;
+    }
 }

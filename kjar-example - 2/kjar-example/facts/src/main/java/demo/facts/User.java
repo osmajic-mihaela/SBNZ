@@ -20,6 +20,7 @@ public class User implements Serializable{
     private double monthlyWage;
     private String employmentType;
     private Date employedUntil;
+    private Date employmentStart;
 
     private List<AccountPackage> accountPackages;
 
@@ -126,5 +127,13 @@ public class User implements Serializable{
 
     public void setAccountPackages(List<AccountPackage> accountPackages) {
         this.accountPackages = accountPackages;
+    }
+
+    public Date getEmploymentStart() {
+        return employmentStart;
+    }
+
+    public void setEmploymentStart(Date employmentStart) {
+        this.employmentStart = employmentStart;
     }
 }
