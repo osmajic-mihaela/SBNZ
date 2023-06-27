@@ -45,7 +45,7 @@ public class TransactionRepository {
         Transaction transaction1 = new Transaction(UUID.randomUUID(), LocalDateTime.now(), "lazar@gmail.com",
                 "Lazar", "Lazar", null, 11112,
                 11111, 33333, r,
-                123, 5, InetAddress.getByName("93.87.123.177") , false, false);
+                123, 5, InetAddress.getByName("93.87.123.177") , false, false, true);
 
         transactions.add(transaction1);
     }

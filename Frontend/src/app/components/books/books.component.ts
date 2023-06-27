@@ -29,6 +29,7 @@ export class BooksComponent {
   creditCard:boolean = false
   transaction:Transaction = new Transaction();
 
+
   constructor(private router : Router,private http: HttpClient,private userService:UserService) {}
 
   ngOnInit(): void {
@@ -222,6 +223,9 @@ export class BooksComponent {
       this.shop()
     }
   }
-  
+
+ 
 }
+  
+
 

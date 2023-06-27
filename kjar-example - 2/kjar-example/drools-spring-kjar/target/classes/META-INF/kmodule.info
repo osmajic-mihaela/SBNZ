@@ -24,7 +24,9 @@
         <string>Upada u pravila</string>
         <string>Above average user transaction amount</string>
         <string>Suspicious transaction with big amount over night</string>
+        <string>Safe transactions</string>
         <string>Unusual location for transaction</string>
+        <string>Multiple transactions in small time interval</string>
       </set>
     </entry>
   </rulesByPackage>

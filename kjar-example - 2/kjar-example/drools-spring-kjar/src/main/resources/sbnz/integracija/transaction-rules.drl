@@ -15,6 +15,8 @@ import java.util.Comparator;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+global List<Transaction> timeTransactions;
+
 rule "Upada u pravila"
 when
 
@@ -68,6 +70,33 @@ then
    modify($currentTransaction){setSuspicious(true)};
       modify($currentTransaction){setSafeTransaction(true)};
       System.out.println("Transaction " + $currentTransaction.getId() + " is suspicious because location is unusual.");
+end
+
+rule "Multiple transactions in small time interval"
+when
+  $currentTransaction: Transaction(
+    isSuspicious() == false,
+    safeTransaction==false,
+    $transactionDate: transactionDate
+  )
+  $br : Number(intValue > 0) from accumulate(
+    Transaction(transactionDate > $transactionDate.minusMinutes(5)),
+    count(1)
+  )
+  eval($br.intValue() > 3)
+then
+  modify($currentTransaction){setSuspicious(true)};
+        modify($currentTransaction){setSafeTransaction(true)};
+        System.out.println("Transaction " + $currentTransaction.getId() + " is suspicious because is in small time interval.");
+end
+
+rule "Safe transactions"
+when
+    $currentTransaction : Transaction(isSuspicious() == false,
+                         safeTransaction==false)
+then
+    modify($currentTransaction){setSafeTransaction(true)};
+    System.out.println("Transaction " + $currentTransaction.getId() + " isn't suspicious.");
 end
 
 

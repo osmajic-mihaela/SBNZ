@@ -48,6 +48,11 @@ public class TransactionService {
             KieSession kieSession = kieContainer.newKieSession("transaction-rules");
             kieSession.insert(transaction);
             kieSession.insert(user);
+
+            for(Transaction t:user.getTransactions()){
+                kieSession.insert(t);
+            }
+
             kieSession.fireAllRules();
             kieSession.dispose();
 

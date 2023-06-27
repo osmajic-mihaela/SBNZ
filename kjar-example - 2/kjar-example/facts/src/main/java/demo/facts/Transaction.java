@@ -1,9 +1,17 @@
 package demo.facts;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 import java.net.InetAddress;
+
 
 
 public class Transaction {
@@ -55,7 +63,7 @@ public class Transaction {
     public Transaction(UUID id, LocalDateTime transactionDate, String senderEmail, String senderFirstName,
                        String senderLastName, UUID senderAccountId, int senderAccountNumber, int senderCardNumber,
                        int beneficiarAccountNumber, Date cardExpirationDate, int cvv, double amountTrans,
-                       InetAddress locationIP, boolean isSuspicious, boolean validateTransaction) {
+                       InetAddress locationIP, boolean isSuspicious, boolean validateTransaction, boolean safeTransaction) {
         this.id = id;
         this.transactionDate = transactionDate;
         this.senderEmail = senderEmail;
@@ -71,7 +79,7 @@ public class Transaction {
         this.locationIP = locationIP;
         this.isSuspicious = isSuspicious;
         this.validateTransaction = validateTransaction;
-        this.safeTransaction = false;
+        this.safeTransaction = safeTransaction;
     }
 
 
@@ -202,5 +210,26 @@ public class Transaction {
 
     public void setSafeTransaction(boolean safeTransaction) {
         this.safeTransaction = safeTransaction;
+    }
+
+    public long getDistance(InetAddress ipAddress2) throws UnknownHostException {
+
+        byte[] bytes1 = this.locationIP.getAddress();
+        byte[] bytes2 = ipAddress2.getAddress();
+
+        long ip1 = 0;
+        long ip2 = 0;
+
+        for (byte b : bytes1) {
+            ip1 <<= 8;
+            ip1 |= b & 0xFF;
+        }
+
+        for (byte b : bytes2) {
+            ip2 <<= 8;
+            ip2 |= b & 0xFF;
+        }
+
+        return Math.abs(ip1 - ip2);
     }
 }
