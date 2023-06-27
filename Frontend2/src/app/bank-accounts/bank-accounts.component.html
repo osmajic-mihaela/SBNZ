@@ -1,0 +1,53 @@
+<div class="container d-flex justify-content-center">
+    <div class="row">
+        <button class="btn btn-primary" (click)="openModal()">Create a new account</button>
+    </div>
+    <div class="row">
+        
+        <div class="card" *ngFor="let bankAccount of bankAccounts">
+            <div class="card-body">
+                <h5>Account number: {{ bankAccount.accountNumber }}</h5>
+                <p>Card number: {{ bankAccount.cardNumber }}</p>
+                <p>Valid from: {{ bankAccount.validFrom }}</p>
+                <p>Valid to: {{ bankAccount.validTo }}</p>
+                <p>CVV/CVC: {{ bankAccount.cvv }}</p>
+                <p>Status: {{ bankAccount.status }}</p>
+                <p>Balance: {{ bankAccount.balance }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add new bank account</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal(addForm)"></button>
+            </div>
+            <form #addForm="ngForm" (ngSubmit)="onAdd(addForm)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="accountNumber">Account number</label>
+                        <input type="number" class="form-control" ngModel id="accountNumber" name="accountNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardNumber">Card number</label>
+                        <input type="number" class="form-control" ngModel id="cardNumber" name="cardNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="number" class="form-control" ngModel id="cvv" name="cvv" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="balance">Balance</label>
+                        <input type="number" class="form-control" ngModel id="balance" name="balance" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" [disabled]="!addForm.valid">Add</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closeModal(addForm)">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

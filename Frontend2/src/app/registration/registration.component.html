@@ -1,0 +1,63 @@
+<div class="container mt-4" >
+    <h1>Registration</h1>
+    <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" ngModel name="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" ngModel name="name" id="name" required>
+      </div>
+      <div class="form-group">
+        <label for="surname">Surname</label>
+        <input type="text" class="form-control" ngModel name="surname" id="surname" required>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Phone number</label>
+        <input type="text" class="form-control" ngModel name="phoneNumber" id="phoneNumber" required>
+      </div>
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select class="form-control" name="role" id="role" ngModel required>
+          <option value="CLIENT">Client</option>
+          <option value="BANKER">Banker</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="birthDate">Birth date</label>
+        <input type="date" class="form-control" ngModel name="birthDate" id="birthDate" required>
+      </div>
+      <div class="form-group">
+        <label for="monthlyWage">Monthly wage</label>
+        <input type="number" class="form-control" ngModel name="monthlyWage" id="monthlyWage" required>
+      </div>
+      <div class="form-group">
+        <label for="employmentType">Employment type</label>
+        <select class="form-control" name="employmentType" id="employmentType" [(ngModel)]="employmentType" required>
+          <option value="UNEMPLOYED">Unemployed</option>
+          <option value="DETERMINED">Determined</option>
+          <option value="UNDETERMINED">Undetermined</option>
+        </select>
+      </div>
+      <div class="form-group" *ngIf="employmentType == 'DETERMINED'">
+        <label for="emplyedUntil">Employed until</label>
+        <input type="date" class="form-control" ngModel name="emplyedUntil" id="emplyedUntil" [required]="employmentType == 'DETERMINED'">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" ngModel id="password" name="password" required>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm password</label>
+        <input type="password" class="form-control" ngModel id="confirmPassword" name="confirmPassword" required>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Register</button>
+        <button class="btn btn-danger" (click)="onCancel(registerForm)">Cancel</button>
+      </div>
+    </form>      
+      <div>
+        <p *ngIf="showMsg" style="color: red;">{{errorMsg}}</p>
+      </div>
+</div>

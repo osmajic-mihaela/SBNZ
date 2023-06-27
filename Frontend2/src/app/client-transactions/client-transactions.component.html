@@ -1,0 +1,29 @@
+<br>
+<div class="container d-flex justify-content-center">
+    <div class="row col-6">
+        <div class="card" *ngFor="let transaction of transactions">
+            <div class="card-header">
+                <h5>Transaction {{transaction.id}}</h5>
+            </div>
+            <div class="card-body">
+                <label for="cardNumber">Card number: {{ transaction.cardNumber }}</label>
+                <br>
+                <label for="clientBankAccount">Client bank account: {{ transaction.clientBankAccount }}</label>
+                <br>
+                <label for="expirationDate">Card expiration date: {{ transaction.expirationDate }}</label>
+                <br>
+                <label for="cvv">CVV: {{ transaction.cvv }}</label>
+                <br>
+                <label for="beneficiarBankAccount">Beneficiar bank account: {{ transaction.beneficiarBankAccount }}</label>
+                <br>
+                <label for="amountTrans">Transaction amount: {{ transaction.amountTrans }}</label>
+                <br>
+                <label for="isSuspicious">Suspicious: {{ transaction.isSuspicious }}</label>
+            </div>
+            <div class="card-footer" *ngIf="transaction.isSuspicious">
+                <button class="btn btn-success">Approve</button>
+                <button class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
