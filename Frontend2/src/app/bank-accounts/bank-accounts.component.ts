@@ -32,10 +32,13 @@ export class BankAccountsComponent implements OnInit {
     this.bankAccountService.createAccount(
       new CreateBankAccountDto(
         this.userService.user.value.email,
-        form.value.accountNumber,
+        this.userService.user.value.name,
+        this.userService.user.value.surname,
         form.value.cardNumber,
+        form.value.accountNumber,
         form.value.cvv,
-        form.value.balance
+        form.value.balance,
+        form.value.expirationDate
       )
     );
     this.closeModal(form);
@@ -51,7 +54,6 @@ export class BankAccountsComponent implements OnInit {
   closeModal(form: NgForm): void {
     const modal = document.getElementById('addModal');
     if (modal != null) {
-      console.log('hey');
       modal.style.display = 'none';
     }
     form.reset();

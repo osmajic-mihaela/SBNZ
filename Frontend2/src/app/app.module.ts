@@ -11,6 +11,7 @@ import { BankAccountsComponent } from './bank-accounts/bank-accounts.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { LoanApprovalComponent } from './loan-approval/loan-approval.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent},
@@ -30,7 +31,8 @@ const routes: Routes = [
     RegistrationComponent,
     ClientTransactionsComponent,
     ClientLoansComponent,
-    BankAccountsComponent
+    BankAccountsComponent,
+    LoanApprovalComponent
   ],
   imports: [
     BrowserModule,

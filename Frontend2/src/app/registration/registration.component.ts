@@ -19,7 +19,7 @@ export class RegistrationComponent {
   confirmPassword : string = '';
   errorMsg : string = '';
   showMsg : boolean = false;
-  employmentType: string = '';
+  employmentType: string = 'UNEMPLOYED';
 
 
   onRegister(form: NgForm) {
