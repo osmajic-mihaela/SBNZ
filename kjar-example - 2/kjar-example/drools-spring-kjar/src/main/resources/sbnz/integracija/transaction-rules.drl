@@ -1,0 +1,103 @@
+package sbnz.integracija;
+
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.ThreadLocalRandom.*;
+import java.time.LocalDateTime;
+
+import demo.facts.User;
+import demo.facts.Transaction;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Comparator;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
+global List<Transaction> timeTransactions;
+
+rule "Upada u pravila"
+when
+
+then
+    System.out.println("Upada u pravila");
+end
+
+rule "Suspicious transaction with big amount over night"
+when
+    $currentTransaction : Transaction(safeTransaction==false,
+            amountTrans > 10000,
+            transactionDate >= LocalDateTime.of($currentTransaction.transactionDate.getYear(), $currentTransaction.transactionDate.getMonth(), $currentTransaction.transactionDate.getDayOfMonth(), 23, 0, 0) ||
+            transactionDate <= LocalDateTime.of($currentTransaction.transactionDate.getYear(), $currentTransaction.transactionDate.getMonth(), $currentTransaction.transactionDate.getDayOfMonth(), 6, 0, 0)
+          )
+then
+    modify($currentTransaction){setSuspicious(true)};
+    modify($currentTransaction){setSafeTransaction(true)};
+    System.out.println("Transaction " + $currentTransaction.getId() + " is suspicious because amount is big and transaction is over night.");
+end
+
+rule "Above average user transaction amount"
+when
+    $currentTransaction : Transaction(safeTransaction==false)
+    $user: User($userTransactions: transactions,role==Role.USER)
+    $transaction: Transaction($amount: amountTrans) from $userTransactions
+
+    $avgAmount: Number(doubleValue > 0) from accumulate(
+                             $s: Transaction(
+                                 ) from $userTransactions ,
+                                 init(double count = 0.0;),
+                                 action(count += $s.getAmountTrans();),
+                                 reverse(count -= $s.getAmountTrans();),
+                                 result(count)
+                            )
+    eval($currentTransaction.getAmountTrans() > $avgAmount.doubleValue()*1.5)
+then
+    modify($currentTransaction){setSuspicious(true)};
+    modify($currentTransaction){setSafeTransaction(true)};
+    System.out.println("Transaction " + $currentTransaction.getId() + " is suspicious because amount is above user average.");
+end
+
+rule "Unusual location for transaction"
+when
+  $user : User($userTransactions: transactions,role==Role.USER)
+  $currentTransaction: Transaction(
+    safeTransaction==false,
+    $locationIP: locationIP
+  )
+  not (Transaction(locationIP == $locationIP, id!=$currentTransaction.getId()) from $userTransactions)
+then
+   modify($currentTransaction){setSuspicious(true)};
+      modify($currentTransaction){setSafeTransaction(true)};
+      System.out.println("Transaction " + $currentTransaction.getId() + " is suspicious because location is unusual.");
+end
+
+rule "Multiple transactions in small time interval"
+when
+  $currentTransaction: Transaction(
+    isSuspicious() == false,
+    safeTransaction==false,
+    $transactionDate: transactionDate
+  )
+  $br : Number(intValue > 0) from accumulate(
+    Transaction(transactionDate > $transactionDate.minusMinutes(5)),
+    count(1)
+  )
+  eval($br.intValue() > 3)
+then
+  modify($currentTransaction){setSuspicious(true)};
+        modify($currentTransaction){setSafeTransaction(true)};
+        System.out.println("Transaction " + $currentTransaction.getId() + " is suspicious because is in small time interval.");
+end
+
+rule "Safe transactions"
+when
+    $currentTransaction : Transaction(isSuspicious() == false,
+                         safeTransaction==false)
+then
+    modify($currentTransaction){setSafeTransaction(true)};
+    System.out.println("Transaction " + $currentTransaction.getId() + " isn't suspicious.");
+end
+
+
+

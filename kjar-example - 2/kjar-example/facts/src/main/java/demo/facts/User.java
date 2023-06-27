@@ -21,7 +21,9 @@ public class User implements Serializable{
     private String employmentType;
     private Date employedUntil;
 
-    //dodaj listu paketa kad napravis
+    private List<AccountPackage> accountPackages;
+
+    private List<Transaction> transactions;
 
     public User() {
     }
@@ -37,6 +39,8 @@ public class User implements Serializable{
         this.monthlyWage = monthlyWage;
         this.employmentType = employmentType;
         this.employedUntil = employedUntil;
+        this.accountPackages = new ArrayList<>();
+        this.transactions = new ArrayList<>();
     }
 
     public String getEmail() {
@@ -117,5 +121,21 @@ public class User implements Serializable{
 
     public void setEmployedUntil(Date employedUntil) {
         this.employedUntil = employedUntil;
+    }
+
+    public List<AccountPackage> getAccountPackages() {
+        return accountPackages;
+    }
+
+    public void setAccountPackages(List<AccountPackage> accountPackages) {
+        this.accountPackages = accountPackages;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

@@ -39,7 +39,7 @@ public class UserRepository {
     private void initUsers(){
         users = new ArrayList<>();
 
-        User user4 = new User("proba","proba","Lazar", "Mijatovic" , "566566", Role.USER, new Date(), 2000.0, "",new Date() );
+        User user4 = new User("lazar@gmail.com","proba","Lazar", "Mijatovic" , "566566", Role.USER, new Date(), 2000.0, "",new Date() );
         User user2 = new User("admin","admin","none", "none" , "566566", Role.ADMIN, new Date(), 2000.0, "",new Date() );
         User user3 = new User("user","user","Lazar", "Mijatovic" , "566566", Role.USER, new Date(), 2000.0, "",new Date());
 
@@ -61,6 +61,11 @@ public class UserRepository {
 
     public User logout(){
         return this.loggedUser = null;
+    }
+
+    public User getUserByEmail(String email)
+    {
+        return users.stream().filter(u->u.getEmail().equals(email)).findFirst().orElse(null);
     }
 
 }

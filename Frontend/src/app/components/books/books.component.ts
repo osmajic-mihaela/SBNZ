@@ -8,6 +8,9 @@ import { User } from 'src/app/model/User';
 import { OrderItem } from 'src/app/model/OrderItem';
 import { OrderDTO } from 'src/app/model/OrderDTO';
 import { Order } from 'src/app/model/Order';
+import { Transaction } from 'src/app/model/Transaction';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-books',
@@ -22,6 +25,10 @@ export class BooksComponent {
   basket: OrderItem[] = [];
   loggedUser: User = new User();
   role:string = ''
+  isVisible:boolean = false
+  creditCard:boolean = false
+  transaction:Transaction = new Transaction();
+
 
   constructor(private router : Router,private http: HttpClient,private userService:UserService) {}
 
@@ -49,6 +56,7 @@ export class BooksComponent {
         }
       }
     )
+    this.getIPAddress()
   }
 
   getBooks(): Observable<Book[]> {
@@ -106,8 +114,59 @@ export class BooksComponent {
     console.log('basket',this.basket)
   }
 
+  shopCard() {
+    var orderdto:OrderDTO = new OrderDTO()
+
+    orderdto.transaction = this.transaction
+    orderdto.items = this.basket;
+    orderdto.userEmail = this.loggedUser.email;
+
+    var oldPrice = 0;
+    for (let i = 0; i < this.basket.length; i++) {
+      const item = this.basket[i];
+      oldPrice = oldPrice + item.orderItemPrice;
+    }
+
+    this.createOrderCard(orderdto).subscribe(
+      {
+        next: (response:Order) => {
+         console.log("Racunanje diskaunta:", response)
+         this.transaction.amountTrans = response.orderPrice;
+         console.log("Transakcija cena:", this.transaction.amountTrans)
+         this.createTransaction(this.transaction).subscribe({
+          next: (response:any) => {
+          
+            console.log("kreiranje transakcije",response)
+            if(response.validateTransaction){
+              this.createOrder(orderdto).subscribe(
+                {
+                  next: (response:Order) => {
+                   console.log(response)
+                   alert("Old price: "+oldPrice+" Price with discount:"+response.orderPrice)
+                   this.basket = []
+                  }
+                }
+              )
+            }
+           }
+    
+    
+        });
+        }
+      }
+    )
+
+
+   
+
+
+    
+  }
+
   shop() {
     var orderdto:OrderDTO = new OrderDTO()
+
+    orderdto.transaction = this.transaction
     orderdto.items = this.basket;
     orderdto.userEmail = this.loggedUser.email;
 
@@ -132,6 +191,41 @@ export class BooksComponent {
     return this.http.post<any>(this.apiHostOrder+'/createOrder' , dto,{headers: this.headers});
   }
 
-  
+  public createOrderCard(dto:OrderDTO): Observable<any> {
+    return this.http.post<any>(this.apiHostOrder+'/createOrderCard' , dto,{headers: this.headers});
+  }
+
+  public createTransaction(transaction:Transaction): Observable<any> {
+    return this.http.post<any>('http://localhost:8081/transactions/addTransaction' , transaction,{headers: this.headers});
+  }
+
+  public isVisibleShop(){
+    this.isVisible = !this.isVisible 
+  }
+
+  getIPAddress() {
+    this.http.get<{ip: string}>('https://api.ipify.org/?format=json')
+      .pipe(
+        catchError(error => {
+          console.log('Error retrieving IP address:', error);
+          return throwError(error);
+        })
+      )
+      .subscribe(data => {
+        this.transaction.locationIP = data.ip;
+      });
+  }
+
+  public ok(){
+    if(this.creditCard){
+      this.shopCard()
+    }else{
+      this.shop()
+    }
+  }
+
+ 
 }
+  
+
 

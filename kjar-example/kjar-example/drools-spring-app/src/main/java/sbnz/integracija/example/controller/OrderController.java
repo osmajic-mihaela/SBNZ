@@ -35,4 +35,11 @@ public class OrderController {
         Order order = new Order(dto.userEmail, dto.items);
         return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/createOrderCard", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> createOrderCard(@RequestBody OrderDTO dto) {
+        Order order = new Order(dto.userEmail, dto.items);
+        System.out.println(order);
+        return new ResponseEntity<>(orderService.addOrderCard(order,dto.transaction), HttpStatus.OK);
+    }
 }

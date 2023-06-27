@@ -8,9 +8,59 @@
           </div>
       </div>
     <div class="col-5 col-md-5">
-        <button *ngIf="role=='ADMIN'" (click)="createBook()">Add book</button>
-        <button *ngIf="basket.length>0 && role=='USER'" (click)="shop()">Shop</button>
-        <button *ngIf="role!='ADMIN'" (click)="recommendedBooks()">Recommended books</button>
+        <div>
+          <button *ngIf="role=='ADMIN'" (click)="createBook()">Add book</button>
+          <button *ngIf="basket.length>0 && role=='USER'" (click)="isVisibleShop()">Shop</button>
+          <button *ngIf="role!='ADMIN'" (click)="recommendedBooks()">Recommended books</button>
+        </div>
+        <div *ngIf="isVisible">
+
+            <label>Select payment</label>
+            <select [(ngModel)]="creditCard">
+              <option value="true">Credit card</option>
+              <option value="false">Cash on delivery</option>
+            </select>
+            <button *ngIf="basket.length>0 && role=='USER' && !creditCard" (click)="ok()">Ok</button>
+        </div>
+        <div *ngIf="creditCard">
+          <h1>Payment information</h1>
+
+          <div class="form-group">
+            <label>First name:</label>
+            <input type="text" [(ngModel)]="transaction.senderFirstName"  class="form-control" id="firstName">
+          </div>
+       
+          <div class="form-group">
+              <label>Last name:</label>
+              <input type="text" [(ngModel)]="transaction.senderLastName" class="form-control" id="lastName">
+            </div>
+       
+            <div class="form-group">
+              <label>Email:</label>
+              <input type="email" [(ngModel)]="transaction.senderEmail" class="form-control" id="email">
+            </div>
+      
+            <div class="form-group">
+              <label>Beneficiar account number:</label>
+              <input type="number" [(ngModel)]="transaction.beneficiarAccountNumber" class="form-control" id="phoneNumber">
+            </div>
+
+            <div class="form-group">
+              <label>Your account number:</label>
+              <input type="number" [(ngModel)]="transaction.senderAccountNumber" class="form-control" id="phoneNumber">
+            </div>
+      
+            <div class="form-group">
+              <label>CVV/CVC:</label>
+              <input type="number" [(ngModel)]="transaction.cvv" class="form-control" id="phoneNumber">
+            </div>
+
+            <div class="form-group">
+              <label>Expiration date</label>
+              <input type="date" [(ngModel)]="transaction.cardExpirationDate" class="form-control" id="password">
+            </div>
+            <button *ngIf="basket.length>0 && role=='USER'" (click)="ok()">Ok</button>
+        </div>
     </div>
     </div>
   </div>
