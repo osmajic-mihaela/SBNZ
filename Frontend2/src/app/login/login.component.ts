@@ -1,8 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginDto } from 'src/app/dto/login.dto';
 import { UserService } from 'src/app/services/user.service';
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-login',
@@ -16,21 +18,30 @@ export class LoginComponent {
     private router : Router
     ) { }
 
-  loginDto : LoginDto = new LoginDto();
-
-  LogIn(){
-    this.userService.LogIn(this.loginDto).subscribe(
-      {
-        next: res =>{
-        
-          console.log(res)
-
-        },
-        error : (err: HttpErrorResponse) => {
-          console.log(err.error);
+  onLogin(form: NgForm) {
+    this.userService.LogIn(
+      new LoginDto(
+        form.value.email,
+        form.value.password
+      )
+    ).subscribe({
+      next: (user: User) => {
+        console.log(user);
+        if (user.role == 'BANKER') {
+          this.router.navigate['/loan-approval'];
+        }
+        else {
+          this.router.navigate['/bank-accounts'];
         }
       },
-      
-    );
+      error: (err: HttpErrorResponse) => {
+        console.log(err.error);
+      }
+    })
+    form.reset();
+  }
+
+  onCancel(form: NgForm) {
+    form.reset();
   }
 }

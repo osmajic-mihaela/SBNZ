@@ -29,10 +29,6 @@
         <input type="date" class="form-control" ngModel name="birthDate" id="birthDate" required>
       </div>
       <div class="form-group">
-        <label for="monthlyWage">Monthly wage</label>
-        <input type="number" class="form-control" ngModel name="monthlyWage" id="monthlyWage" required>
-      </div>
-      <div class="form-group">
         <label for="employmentType">Employment type</label>
         <select class="form-control" name="employmentType" id="employmentType" [(ngModel)]="employmentType" required>
           <option value="UNEMPLOYED">Unemployed</option>
@@ -43,6 +39,10 @@
       <div class="form-group" *ngIf="employmentType == 'DETERMINED'">
         <label for="emplyedUntil">Employed until</label>
         <input type="date" class="form-control" ngModel name="emplyedUntil" id="emplyedUntil" [required]="employmentType == 'DETERMINED'">
+      </div>
+      <div class="form-group" *ngIf="employmentType != 'UNEMPLOYED'">
+        <label for="monthlyWage">Monthly wage</label>
+        <input type="number" class="form-control" ngModel name="monthlyWage" id="monthlyWage" [required]="employmentType != 'UNEMPLOYED'">
       </div>
       <div class="form-group">
         <label for="password">Password</label>

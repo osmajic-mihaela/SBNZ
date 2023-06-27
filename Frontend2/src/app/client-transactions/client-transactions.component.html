@@ -20,7 +20,7 @@
                 <br>
                 <label for="isSuspicious">Suspicious: {{ transaction.isSuspicious }}</label>
             </div>
-            <div class="card-footer" *ngIf="transaction.isSuspicious">
+            <div class="card-footer" *ngIf="transaction.isSuspicious && !transaction.confirmed">
                 <button class="btn btn-success">Approve</button>
                 <button class="btn btn-danger">Cancel</button>
             </div>

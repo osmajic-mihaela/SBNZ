@@ -12,6 +12,7 @@ export class Transaction {
         public cvv: number = 0,
         public amountTrans: number = 0,
         public location: string = '',
-        public isSuspicious: boolean = false
+        public isSuspicious: boolean = false,
+        public confirmed: boolean = false
     ) { }
 }
