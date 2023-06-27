@@ -29,6 +29,7 @@ when
     $currentTransaction : Transaction(
             isSuspicious() == false,
             safeTransaction==false,
+            isApproved() == false,
             amountTrans > 10000,
             transactionDate >= LocalDateTime.of($currentTransaction.transactionDate.getYear(), $currentTransaction.transactionDate.getMonth(), $currentTransaction.transactionDate.getDayOfMonth(), 23, 0, 0) ||
             transactionDate <= LocalDateTime.of($currentTransaction.transactionDate.getYear(), $currentTransaction.transactionDate.getMonth(), $currentTransaction.transactionDate.getDayOfMonth(), 6, 0, 0)
@@ -41,7 +42,7 @@ end
 
 rule "Above average user transaction amount"
 when
-    $currentTransaction : Transaction(safeTransaction==false, isSuspicious() == false)
+    $currentTransaction : Transaction(safeTransaction==false, isSuspicious() == false,isApproved() == false)
     $user: User($userTransactions: transactions,role==Role.USER)
     $transaction: Transaction($amount: amountTrans) from $userTransactions
 
@@ -65,6 +66,7 @@ when
   $user : User($userTransactions: transactions,role==Role.USER)
   $currentTransaction: Transaction(
    isSuspicious() == false,
+   isApproved() == false,
     safeTransaction==false,
     $locationIP: locationIP
   )
@@ -79,6 +81,7 @@ rule "Multiple transactions on far location"
 when
   $currentTransaction: Transaction(
     isSuspicious() == false,
+    isApproved() == false,
     safeTransaction==false,
     $locationIP: locationIP,
     $transactionDate:transactionDate
@@ -98,6 +101,7 @@ rule "Multiple transactions in small time interval"
 when
   $currentTransaction: Transaction(
     isSuspicious() == false,
+    isApproved() == false,
     safeTransaction==false,
     $transactionDate: transactionDate
   )
@@ -115,9 +119,11 @@ end
 rule "Safe transactions"
 when
     $currentTransaction : Transaction(isSuspicious() == false,
+                          isApproved() == false,
                          safeTransaction==false)
 then
     modify($currentTransaction){setSafeTransaction(true)};
+    modify($currentTransaction){setApproved(true)};
     System.out.println("Transaction " + $currentTransaction.getId() + " isn't suspicious.");
 end
 

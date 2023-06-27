@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sbnz.integracija.example.dto.LoginDTO;
 import sbnz.integracija.example.dto.TransactionDTO;
 import sbnz.integracija.example.service.TransactionService;
 
@@ -27,6 +28,12 @@ public class TransactionController {
         Transaction transaction = new Transaction(UUID.randomUUID(), dto.getTransactionDate(), dto.getSenderEmail(),
                 dto.getSenderFirstName(), dto.getSenderLastName(), null, dto.getSenderAccountNumber(), dto.getSenderCardNumber(), dto.getBeneficiarAccountNumber(), dto.getCardExpirationDate(), dto.getCvv(), dto.getAmountTrans(), dto.getLocationIP(), dto.isSuspicious(), false,false);
         var ret = transactionService.addTransaction(transaction);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/suspiciousTransaction", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> addTransaction(@RequestBody LoginDTO dto) {
+        var ret = transactionService.getClientSuspiciousTransactions(dto.email);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 }

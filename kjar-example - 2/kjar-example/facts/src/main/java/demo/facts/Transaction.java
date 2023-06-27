@@ -36,6 +36,8 @@ public class Transaction {
     private boolean validateTransaction;
     private boolean safeTransaction;
 
+    private boolean isApproved;
+
 
     public Transaction(){}
 
@@ -57,6 +59,7 @@ public class Transaction {
         this.isSuspicious = isSuspicious;
         this.validateTransaction = false;
         this.safeTransaction = false;
+        this.isApproved = false;
     }
 
     //za seed podatke
@@ -80,6 +83,7 @@ public class Transaction {
         this.isSuspicious = isSuspicious;
         this.validateTransaction = validateTransaction;
         this.safeTransaction = safeTransaction;
+        this.isApproved = false;
     }
 
 
@@ -210,6 +214,14 @@ public class Transaction {
 
     public void setSafeTransaction(boolean safeTransaction) {
         this.safeTransaction = safeTransaction;
+    }
+
+    public boolean isApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(boolean approved) {
+        isApproved = approved;
     }
 
     public long getDistance(InetAddress ipAddress2) throws UnknownHostException {

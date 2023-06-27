@@ -71,4 +71,12 @@ public class TransactionRepository {
                 .collect(Collectors.toList());
     }
 
+    public List<Transaction> getClientSuspiciousTransactions(String email) {
+        return (ArrayList<Transaction>) transactions.stream()
+                .filter(packge -> packge.getSenderEmail().equals(email))
+                .filter(packge -> packge.isSuspicious()==true)
+                .filter(packge -> packge.isApproved()==false)
+                .collect(Collectors.toList());
+    }
+
 }
