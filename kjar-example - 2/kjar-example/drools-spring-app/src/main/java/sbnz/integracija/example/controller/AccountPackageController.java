@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sbnz.integracija.example.service.AccountPackageService;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:4201", maxAge = 3600)
 @RestController
@@ -18,6 +20,7 @@ public class AccountPackageController {
 
     @RequestMapping(value = "/addPackage", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> addPackage(@RequestBody AccountPackage accountPackage) {
+        accountPackage.setId(UUID.randomUUID());
         return new ResponseEntity<>(accountPackageService.addPackage(accountPackage), HttpStatus.OK);
     }
 }

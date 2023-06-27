@@ -56,6 +56,35 @@ public class TransactionService {
             kieSession.fireAllRules();
             kieSession.dispose();
 
+            if(!transaction.isSuspicious()){
+                AccountPackage accPackage = accountPackageRepository.getPackageByAccountNumber(transaction.getSenderAccountNumber());
+                AccountPackage benefacierPackage = accountPackageRepository.getPackageByAccountNumber(transaction.getBeneficiarAccountNumber());
+                accPackage.setBalance(accPackage.getBalance() - transaction.getAmountTrans());
+                benefacierPackage.setBalance(benefacierPackage.getBalance() + transaction.getAmountTrans());
+
+            }
+
+            repository.addTransaction(transaction);
+        }
+
+        return transaction;
+    }
+
+    public Transaction addTransactionWithoutRules(Transaction transaction) {
+        User user = userRepository.getUserByEmail(transaction.getSenderEmail());
+        if(user==null)
+        {
+            transaction.setValidateTransaction(false);
+            return transaction;
+        }
+        user.setTransactions(new ArrayList<>());
+        user.setTransactions(repository.getTransactionsByClient(transaction.getSenderEmail()));
+
+        //validacija, provera sredstva, provera racuna na koji se uplacuje
+        boolean validation= transactionValidation(transaction);
+        transaction.setValidateTransaction(validation);
+
+        if(validation){
             AccountPackage accPackage = accountPackageRepository.getPackageByAccountNumber(transaction.getSenderAccountNumber());
             AccountPackage benefacierPackage = accountPackageRepository.getPackageByAccountNumber(transaction.getBeneficiarAccountNumber());
             accPackage.setBalance(accPackage.getBalance() - transaction.getAmountTrans());
@@ -90,6 +119,13 @@ public class TransactionService {
         return repository.getTransactionsByClient(email);
     }
 
+    public List<Transaction> getClientSuspiciousTransactions(String email) {
+        var res = repository.getClientSuspiciousTransactions(email);
+        if(res!= null){
+            return res;
+        }
+        return new ArrayList<Transaction>();
+    }
     public List<Transaction> getAllTransactions() {
         return repository.getTransactions();
     }
