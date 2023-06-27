@@ -35,8 +35,5 @@ public class CreditController {
         catch(Exception ex){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-
-        return
     }
 }

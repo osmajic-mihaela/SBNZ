@@ -1,5 +1,6 @@
 package sbnz.integracija.example.service;
 
+import demo.facts.Credit;
 import demo.facts.CreditRequest;
 import demo.facts.User;
 import org.kie.api.runtime.KieContainer;
@@ -7,12 +8,17 @@ import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
 import sbnz.integracija.example.dto.CreditConditions;
 import sbnz.integracija.example.dto.CreditRequestDTO;
+import sbnz.integracija.example.repository.CreditRepository;
 import sbnz.integracija.example.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 public class CreditService {
 
     private final UserRepository userRepository = UserRepository.getInstance();
+
+    private final CreditRepository creditRepository = CreditRepository.getInstance();
 
     private final KieContainer kieContainer;
 
@@ -32,18 +38,23 @@ public class CreditService {
 
         User user = userRepository.getUser(requestDto.getClientId());
 
+        List<Credit> clientCredits = creditRepository.getClientCredits(user.getEmail());
+
         KieSession kieSession = kieContainer.newKieSession("credit-request-approval-rules");
-        
+
         CreditConditions conditions = new CreditConditions();
         kieSession.setGlobal("conditions", conditions);
 
         kieSession.insert(request);
         kieSession.insert(user);
+        kieSession.insert(clientCredits);
 
         kieSession.fireAllRules();
         kieSession.dispose();
 
-        return conditions.allFulfilled();
+        if(conditions.getConditionFulfillmentPercentage()>=0.8)
+            return true;
+        else return false;
     }
 
 
