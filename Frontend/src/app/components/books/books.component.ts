@@ -44,19 +44,22 @@ export class BooksComponent {
           this.role = 'USER'
         }
         console.log(this.role)
+        this.getBooks().subscribe(
+          {
+            next: (response:any) => {
+             console.log(response)
+             this.books = response
+            }
+          }
+        )
+
+        
+    this.getIPAddress()
        }
 
 
     });
-    this.getBooks().subscribe(
-      {
-        next: (response:any) => {
-         console.log(response)
-         this.books = response
-        }
-      }
-    )
-    this.getIPAddress()
+
   }
 
   getBooks(): Observable<Book[]> {
