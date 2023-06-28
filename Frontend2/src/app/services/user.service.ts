@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { User } from '../model/user.model';
+import { User, UserRole } from '../model/user.model';
 import { LoginDto } from '../dto/login.dto';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,7 @@ interface AuthResponseData {
   name: string,
   surname: string,
   phoneNum: string,
-  role: string,
+  role: UserRole,
   birthDate: Date,
   monthlyWage: number,
   employmentType: string,
@@ -37,6 +37,7 @@ export class UserService {
     ) { }
 
   Register(user : User) : Observable<any>{
+    console.log(user);
     return this.http.post<any>(this.apiHost + 'register', user, this.httpOptions);
   } 
 
@@ -68,7 +69,8 @@ export class UserService {
 
   logout() {
     this.user.next(null);
-    this.router.navigate['/login'];
+    this.router.navigate(['login']);
     localStorage.removeItem('userData');
+    return this.http.get(`${this.apiHost}logout`, this.httpOptions);
   }
 }

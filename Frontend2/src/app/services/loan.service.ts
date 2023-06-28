@@ -1,18 +1,18 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AuthService } from "./auth.service";
 import { CreateLoanRequestDto } from "../dto/create-loan-request.dto";
 import { LoanRequest } from "../model/loan-request.model";
+import { UserService } from "./user.service";
 
 @Injectable({ providedIn: 'root'})
 
 export class LoanService {
-    private apiHost = 'https//localhost:9000/api/Loans';
+    private apiHost = 'http://localhost:8081/loans';
     private headers = { 'content-type': 'application/json' }
 
     constructor(
         private http: HttpClient,
-        private authService: AuthService
+        private userService: UserService
     ) { }
 
     getClientLoansRequests() {

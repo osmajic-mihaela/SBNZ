@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { CreateBankAccountDto } from '../dto/create-bank-account.dto';
 import { BankAccountService } from '../services/bank-account.service';
 import { UserService } from '../services/user.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-bank-accounts',
@@ -40,7 +41,15 @@ export class BankAccountsComponent implements OnInit {
         form.value.balance,
         form.value.expirationDate
       )
-    );
+    ).subscribe({
+      next: (added: BankAccount) => {
+        this.bankAccounts.push(added);
+        alert('Successfully added a new packet!');
+      },
+      error: (err: HttpErrorResponse) => {
+        alert("There was an error with creating the account !");
+      }
+    })
     this.closeModal(form);
   }
   

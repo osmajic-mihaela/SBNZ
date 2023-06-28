@@ -20,8 +20,7 @@
       <div class="form-group">
         <label for="role">Role</label>
         <select class="form-control" name="role" id="role" ngModel required>
-          <option value="CLIENT">Client</option>
-          <option value="BANKER">Banker</option>
+          <option *ngFor="let option of userRoles" [ngValue]="option">{{ option }}</option>
         </select>
       </div>
       <div class="form-group">

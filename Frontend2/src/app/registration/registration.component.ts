@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/model/user.model';
+import { User, UserRole } from 'src/app/model/user.model';
 import { UserService } from 'src/app/services/user.service';
 import {FormControl, FormsModule, NgForm, ReactiveFormsModule} from '@angular/forms';
 
@@ -12,14 +12,17 @@ import {FormControl, FormsModule, NgForm, ReactiveFormsModule} from '@angular/fo
 })
 export class RegistrationComponent {
 
-  constructor(
-    private userService : UserService,
-    private router : Router
-    ) { }
   confirmPassword : string = '';
   errorMsg : string = '';
   showMsg : boolean = false;
   employmentType: string = 'UNEMPLOYED';
+
+  userRoles = Object.values(UserRole);
+
+  constructor(
+    private userService : UserService,
+    private router : Router
+    ) { }
 
 
   onRegister(form: NgForm) {
@@ -38,7 +41,7 @@ export class RegistrationComponent {
           form.value.password,
           form.value.name,
           form.value.surname,
-          form.value.phoneNum,
+          form.value.phoneNumber,
           form.value.role,
           form.value.birthDate,
           form.value.monthlyWage,
@@ -48,7 +51,7 @@ export class RegistrationComponent {
       ).subscribe({
         next: (response: Response) => {
           alert('User successfully registered!');
-          this.router.navigate['/login'];
+          this.router.navigate(['/login']);
         },
         error: (err: HttpErrorResponse) => {
           alert('Email already in use!');

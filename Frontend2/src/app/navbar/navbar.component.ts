@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
+import { UserRole } from '../model/user.model';
 
 @Component({
   selector: 'app-navbar',

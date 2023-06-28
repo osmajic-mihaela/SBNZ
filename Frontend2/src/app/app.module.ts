@@ -12,14 +12,42 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { LoanApprovalComponent } from './loan-approval/loan-approval.component';
+import { AuthGuard } from './services/auth.guard';
+import { UserRole } from './model/user.model';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'register', component: RegistrationComponent},
-  { path: 'bank-accounts', component: BankAccountsComponent },
-  { path: 'loan-requests', component: ClientLoansComponent },
-  { path: 'transactions', component: ClientTransactionsComponent }
+  { 
+    path: 'login', 
+    component: LoginComponent,
+  },
+  { 
+    path: 'register', 
+    component: RegistrationComponent
+  },
+  { 
+    path: 'bank-accounts', 
+    component: BankAccountsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: UserRole.USER
+    }
+  },
+  { 
+    path: 'loan-requests',
+    component: ClientLoansComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: UserRole.USER
+    }
+  },
+  { 
+    path: 'transactions', 
+    component: ClientTransactionsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: UserRole.USER
+    }
+  }
 
 ];
 

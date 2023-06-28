@@ -1,17 +1,15 @@
-<div class="container d-flex justify-content-center">
+<div class="container justify-content-center">
     <div class="row">
         <button class="btn btn-primary" (click)="openModal()">Create a new account</button>
     </div>
-    <div class="row">
+    <div class="row" *ngFor="let bankAccount of bankAccounts">
         
-        <div class="card" *ngFor="let bankAccount of bankAccounts">
+        <div class="card" >
             <div class="card-body">
                 <h5>Account number: {{ bankAccount.accountNumber }}</h5>
                 <p>Card number: {{ bankAccount.cardNumber }}</p>
-                <p>Valid from: {{ bankAccount.validFrom }}</p>
-                <p>Valid to: {{ bankAccount.validTo }}</p>
+                <p>Expiration date: {{ bankAccount.expirationDate }}</p>
                 <p>CVV/CVC: {{ bankAccount.cvv }}</p>
-                <p>Status: {{ bankAccount.status }}</p>
                 <p>Balance: {{ bankAccount.balance }}</p>
             </div>
         </div>

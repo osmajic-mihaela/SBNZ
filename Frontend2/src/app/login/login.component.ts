@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginDto } from 'src/app/dto/login.dto';
 import { UserService } from 'src/app/services/user.service';
-import { User } from '../model/user.model';
+import { User, UserRole } from '../model/user.model';
 
 @Component({
   selector: 'app-login',
@@ -27,11 +27,11 @@ export class LoginComponent {
     ).subscribe({
       next: (user: User) => {
         console.log(user);
-        if (user.role == 'BANKER') {
-          this.router.navigate['/loan-approval'];
+        if (user.role == UserRole.ADMIN) {
+          this.router.navigate(['/loan-approval']);
         }
-        else {
-          this.router.navigate['/bank-accounts'];
+        else if (user.role == UserRole.USER) {
+          this.router.navigate(['/bank-accounts']);
         }
       },
       error: (err: HttpErrorResponse) => {
