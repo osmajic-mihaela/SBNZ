@@ -29,7 +29,6 @@
     <entry>
       <string>sbnz.integracija</string>
       <set>
-        <string>Upada u pravila</string>
         <string>Credit approval</string>
         <string>Above average user transaction amount</string>
         <string>clientCredit</string>
