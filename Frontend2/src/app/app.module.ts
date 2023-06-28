@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoanApprovalComponent } from './loan-approval/loan-approval.component';
 import { AuthGuard } from './services/auth.guard';
 import { UserRole } from './model/user.model';
+import { CreditApprovalComponent } from './credit-approval/credit-approval.component';
 
 const routes: Routes = [
   { 
@@ -47,6 +48,14 @@ const routes: Routes = [
     data: {
       role: UserRole.USER
     }
+  },
+  {
+    path: 'credit-approval',
+    component: CreditApprovalComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: UserRole.ADMIN
+    }
   }
 
 ];
@@ -60,7 +69,8 @@ const routes: Routes = [
     ClientTransactionsComponent,
     ClientLoansComponent,
     BankAccountsComponent,
-    LoanApprovalComponent
+    LoanApprovalComponent,
+    CreditApprovalComponent
   ],
   imports: [
     BrowserModule,

@@ -7,15 +7,15 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" *ngIf="isAuthenticated && role == 'ADMIN'" routerLink="/loans">Loan requests</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" *ngIf="isAuthenticated && role === 'USER'" routerLink="/bank-accounts">My bank accounts</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" *ngIf="isAuthenticated && role == 'USER'" routerLink="/loan-requests">My loan requests</a>
           </li><li class="nav-item">
             <a class="nav-link" *ngIf="isAuthenticated && role == 'USER'" routerLink="/transactions">My transactions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="isAuthenticated && role =='ADMIN'" routerLink="/credit-approval">Credit requests</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" routerLink="/bank-accounts">My bank accounts</a>

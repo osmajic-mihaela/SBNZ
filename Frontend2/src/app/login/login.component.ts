@@ -28,7 +28,7 @@ export class LoginComponent {
       next: (user: User) => {
         console.log(user);
         if (user.role == UserRole.ADMIN) {
-          this.router.navigate(['/loan-approval']);
+          this.router.navigate(['/credit-approval']);
         }
         else if (user.role == UserRole.USER) {
           this.router.navigate(['/bank-accounts']);

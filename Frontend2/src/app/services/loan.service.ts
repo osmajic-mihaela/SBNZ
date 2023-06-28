@@ -1,8 +1,8 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { CreditRequest } from "../model/credit-request.model";
 import { UserService } from "./user.service";
-import { CreateCreditRequestDto } from "../dto/create-credit-request.dto";
+import { Observable } from "rxjs";
 
 @Injectable({ providedIn: 'root'})
 
@@ -22,5 +22,17 @@ export class LoanService {
     createCreditRequest(dto: CreditRequest) {
         console.log(dto);
         return this.http.post<CreditRequest>(`${this.apiHost}`, dto, { headers: this.headers });
+    }
+
+    approveCredit(id: string): Observable<CreditRequest> {
+        let params = new HttpParams();
+        params = params.set('id', id);
+        return this.http.put<CreditRequest>(`${this.apiHost}/approve`, { headers: this.headers, params: params });
+    }
+
+    cancelCredit(id: string ): Observable<CreditRequest> {
+        let params = new HttpParams();
+        params = params.set('id', id);
+        return this.http.put<CreditRequest>(`${this.apiHost}/cancel`, { headers: this.headers, params: params });
     }
 }
