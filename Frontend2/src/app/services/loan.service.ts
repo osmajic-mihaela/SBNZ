@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
 @Injectable({ providedIn: 'root'})
 
 export class LoanService {
-    private apiHost = 'http://localhost:8081/credit-requests';
+    private apiHost = 'http://localhost:8081/credits';
     private headers = { 'content-type': 'application/json' }
 
     constructor(
@@ -21,18 +21,14 @@ export class LoanService {
 
     createCreditRequest(dto: CreditRequest) {
         console.log(dto);
-        return this.http.post<CreditRequest>(`${this.apiHost}`, dto, { headers: this.headers });
+        return this.http.post<CreditRequest>(`${this.apiHost}/addRequest`, dto, { headers: this.headers });
     }
 
     approveCredit(id: string): Observable<CreditRequest> {
-        let params = new HttpParams();
-        params = params.set('id', id);
-        return this.http.put<CreditRequest>(`${this.apiHost}/approve`, { headers: this.headers, params: params });
+        return this.http.put<CreditRequest>(`${this.apiHost}/acceptRequest/` + id, { headers: this.headers });
     }
 
     cancelCredit(id: string ): Observable<CreditRequest> {
-        let params = new HttpParams();
-        params = params.set('id', id);
-        return this.http.put<CreditRequest>(`${this.apiHost}/cancel`, { headers: this.headers, params: params });
+        return this.http.put<CreditRequest>(`${this.apiHost}/rejectRequest/` + id, { headers: this.headers });
     }
 }

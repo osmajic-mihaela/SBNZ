@@ -20,6 +20,7 @@ export class ClientTransactionsComponent implements OnInit {
     this.transactionService.getClientTransactions().subscribe({
       next: (value: Transaction[]) => {
         this.transactions = value;
+        console.log(value);
       }
     });
   }

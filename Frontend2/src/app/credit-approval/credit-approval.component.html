@@ -9,6 +9,7 @@
             </div>
             <div class="card-body">
                 <label for="email">Client email: {{ creditRequest.email }}</label>
+                <br>
                 <label for="loanAmount">Credit amount: {{ creditRequest.amount }}</label>
                 <br>
                 <label for="paymentRate">Payment rate: {{ creditRequest.mounthlyRate }}</label>
@@ -17,7 +18,7 @@
                 <br>
                 <label for="creditRequestType">Status: {{ creditRequest.creditRequestType }}</label>
                 <br>
-                <label for="isRecommend" style="font-weight: bold;">Is recommended: {{ creditRequset.isRecommend }}</label>
+                <label for="isRecommend" style="font-weight: bold;">Is recommended: {{ creditRequest.recommend }}</label>
             </div>
             <div class="card-footer" *ngIf="creditRequest.creditRequestType == 'PENDING'">
                 <button class="btn btn-success" [disabled]="creditRequest.creditRequestType != 'PENDING'" (click)="onApprove(creditRequest.id)">Approve</button>

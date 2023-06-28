@@ -25,6 +25,18 @@ export class CreditApprovalComponent {
     private userService: UserService
   ) { }
 
+  ngOnInit() {
+    this.loanService.getClientCreditRequests().subscribe({
+      next: (ret: CreditRequest[]) => {
+        this.creditRequests = ret;
+        console.log(ret);
+        console.log(ret[0].creditRequestType == 'PENDING')
+      },
+      error: (err: HttpErrorResponse) => {
+        alert(err.message);
+      }
+    })
+  }
   onApprove(id: string): any {
     this.loanService.approveCredit(id).subscribe({
       next: (ret: CreditRequest) => {
@@ -62,7 +74,7 @@ export class CreditApprovalComponent {
         form.value.employmentType,
         form.value.age,
         form.value.startContract ? new Date(Date.parse(form.value.startContract)) : null,
-        form.value.endContract ? new Date(Date.parse(form.value.endContract)) : null,
+        form.value.endContract ? new Date(Date.parse(form.value.endContract)) : new Date(2099, 0, 1),
         new Date(Date.parse(form.value.minDate)),
         new Date(Date.parse(form.value.maxDate)),
         0,
@@ -80,6 +92,7 @@ export class CreditApprovalComponent {
         alert(err.message);
       }
     });
+    this.closeModal(form);
   }
 
   updateMonthlyRate(): void {

@@ -125,6 +125,7 @@ public class TransactionRepository {
                 .findFirst()
                 .orElse(null);
         tr.setApproved(true);
+        tr.setSuspicious(false);
         return tr;
     }
 

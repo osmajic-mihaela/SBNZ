@@ -13,9 +13,10 @@ export class Transaction {
         public cvv: number = 0,
         public amountTrans: number = 0,
         public locationIP: string = '',
-        public isSuspicious: boolean = false,
+        public suspicious: boolean = false,
         public validateTransaction: boolean = false,
         public safeTransaction: boolean = false,
-        public isApproved: boolean = false
+        public approved: boolean = false,
+        public purpose: string = ''
     ) { }
 }

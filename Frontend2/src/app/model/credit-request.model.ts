@@ -27,6 +27,6 @@ export class CreditRequest {
         public avgCosts: number = 0,
         public isMissedLoan: boolean = false,
         public creditRequestType: CreditRequestType,
-        public isRecommend: boolean = false
+        public recommend: boolean = false
     ) { }
 }

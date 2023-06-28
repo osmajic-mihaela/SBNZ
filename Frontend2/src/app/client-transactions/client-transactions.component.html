@@ -30,15 +30,15 @@
                 <br>
                 <label for="locationIP">Location IP: {{ transaction.locationIP }}</label>
                 <br>
-                <label for="isSuspicious">Suspicious: {{ transaction.isSuspicious }}</label>
+                <label for="isSuspicious">Suspicious: {{ transaction.suspicious }}</label>
                 <br>
                 <label for="validateTransaction">Validate transaction: {{ transaction.validateTransaction }}</label>
                 <br>
                 <label for="safeTransaction">Safe transaction: {{ transaction.safeTransaction }}</label>
                 <br>
-                <label for="isApproved">Approved: {{ transaction.isApproved }}</label>
+                <label for="isApproved">Approved: {{ transaction.approved }}</label>
             </div>
-            <div class="card-footer" *ngIf="!transaction.isApproved">
+            <div class="card-footer" *ngIf="!transaction.approved && transaction.suspicious">
                 <button class="btn btn-success" (click)="onApprove(transaction.id)">Approve</button>
                 <button class="btn btn-danger" (click)="onCancel(transaction.id)">Cancel</button>
             </div>

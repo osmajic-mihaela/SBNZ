@@ -1,8 +1,5 @@
 <div class="container d-flex justify-content-center">
     <div class="row">
-        <button class="btn btn-primary" (click)="openModal()">Make a loan request</button>
-    </div>
-    <div class="row">
         <div class="card" *ngFor="let creditRequest of creditRequests">
             <div class="card-header">
                 <h4>Loan request {{ creditRequest.id }}</h4>
@@ -12,7 +9,7 @@
                 <br>
                 <label for="paymentRate">Payment rate: {{ creditRequest.rateNumber }}</label>
                 <br>
-                <label for="approved">Approved: {{ creditRequest.mounthlyRate }}</label>
+                <label for="approved">Approved: {{ creditRequest.creditRequestType }}</label>
             </div>
         </div>
     </div>
