@@ -3,16 +3,16 @@
         <button class="btn btn-primary" (click)="openModal()">Make a loan request</button>
     </div>
     <div class="row">
-        <div class="card" *ngFor="let loanRequest of loanRequests">
+        <div class="card" *ngFor="let creditRequest of creditRequests">
             <div class="card-header">
-                <h4>Loan request {{ loanRequest.id }}</h4>
+                <h4>Loan request {{ creditRequest.id }}</h4>
             </div>
             <div class="card-body">
-                <label for="loanAmount">Loan amount: {{ loanRequest.loanAmount }}</label>
+                <label for="loanAmount">Loan amount: {{ creditRequest.amount }}</label>
                 <br>
-                <label for="paymentRate">Payment rate: {{ loanRequest.paymentRate }}</label>
+                <label for="paymentRate">Payment rate: {{ creditRequest.rateNumber }}</label>
                 <br>
-                <label for="approved">Approved: {{ loanRequest.approved }}</label>
+                <label for="approved">Approved: {{ creditRequest.mounthlyRate }}</label>
             </div>
         </div>
     </div>
@@ -27,29 +27,38 @@
             <form #addForm="ngForm" (ngSubmit)="onAdd(addForm)">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="loanAmount">Loan amount</label>
-                        <input type="number" class="form-control" ngModel id="loanAmount" name="loanAmount" required>
+                        <label for="amount">Amount</label>
+                        <input type="number" class="form-control" ngModel id="amount" name="amount" required [(ngModel)]="amount" (blur)="updateMonthlyRate()">
                     </div>
                     <div class="form-group">
-                        <label for="paymentRate">Payment rate</label>
-                        <input type="number" class="form-control" ngModel id="paymentRate" name="paymentRate" required>
+                        <label for="rateNumber">Rate number</label>
+                        <input type="number" class="form-control" ngModel id="rateNumber" name="rateNumber" required [(ngModel)]="rateNumber" (blur)="updateMonthlyRate()">
                     </div>
                     <div class="form-group">
-                        <label for="employmentType">EmploymentType</label>
-                        <select name="employmentType" id="employmentType" class="form-control" [(ngModel)]="employmentType">
-                            <option value=""></option>
-                            <option value="UNEMPLOYED">Unemployed</option>
-                            <option value="DETERMINED">Determined</option>
-                            <option value="UNDETERMINED">Undetermined</option>
+                        <label for="mounthlyRate">Mounthly rate</label>
+                        <input type="number" class="form-control" ngModel id="mounthlyRate" name="mounthlyRate" disabled [(ngModel)]="rateCalculate">
+                    </div>
+                    <div class="form-group">
+                        <label for="employmentType">Employment type</label>
+                        <select name="employmentType" id="employmentType" class="form-control" [(ngModel)]="employmentType" disabled>
+                            <option *ngFor="let option of employTypes" [ngValue]="option">{{ option }}</option>
                         </select>
                     </div>
-                    <div class="form-group" *ngIf="employmentType == 'DETERMINED'">
-                        <label for="employedDate">Employed until</label>
-                        <input type="date" class="form-control" ngModel id="employmentDate" name="employmentDate" [required]="employmentType == 'DETERMINED'">
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" class="form-control" ngModel id="age" name="age" [(ngModel)]="age" required disabled>
+                    </div>
+                    <div class="form-group" *ngIf="employmentType != 'UNEMPLOYED'">
+                        <label for="startContract">Start contract</label>
+                        <input type="date" class="form-control" ngModel id="startContract" name="startContract" [required]="employmentType != 'UNEMPLOYED'">
+                    </div>
+                    <div class="form-group" *ngIf="employmentType == 'EMPLOYED_PERIOD'">
+                        <label for="endContract">End contract</label>
+                        <input type="date" class="form-control" ngModel id="endContract" name="endContract" [required]="employmentType == 'EMPLOYED_PERIOD'" [(ngModel)]="endContract">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" [disabled]="addForm.valid">Add</button>
+                    <button type="submit" class="btn btn-success" [disabled]="!addForm.valid">Add</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closeModal(addForm)">Cancel</button>
                 </div>
             </form>
