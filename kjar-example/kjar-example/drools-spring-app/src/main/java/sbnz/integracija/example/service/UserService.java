@@ -48,6 +48,7 @@ public class UserService {
 
             KieSession kieSession = kieContainer.newKieSession("user-rules");
             kieSession.setGlobal("writers", w);
+            kieSession.setGlobal("currentLog", retVal);
             kieSession.insert(retVal);
             kieSession.fireAllRules();
             kieSession.dispose();

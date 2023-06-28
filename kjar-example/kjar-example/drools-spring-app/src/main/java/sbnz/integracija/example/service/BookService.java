@@ -32,6 +32,7 @@ public class BookService {
         List<Book> books = repository.getBooks();
         List<Book> popularBooks = new ArrayList<Book>();
         kieSession.setGlobal("popularBooks", popularBooks);
+        kieSession.setGlobal("currentLog", userRepository.getLoggedUser());
 
         User unregistered = new User("unregistered", "unregistered", "unregistered", "unregistered", "unregistered", Role.UNREGISTERED);
         kieSession.insert(unregistered);
@@ -177,7 +178,9 @@ public class BookService {
             List<Book> popularBooks = new ArrayList<Book>();
             KieSession kieSession2 = kieContainer.newKieSession("book-recommendation-rules");
             kieSession2.setGlobal("popularBooks", popularBooks);
+
             User unregistered = new User("unregistered", "unregistered", "unregistered", "unregistered", "unregistered", Role.UNREGISTERED);
+            kieSession.setGlobal("currentLog", unregistered);
             kieSession2.insert(unregistered);
             for(Book b:books){
                 kieSession2.insert(b);
@@ -202,7 +205,9 @@ public class BookService {
         KieSession kieSession = kieContainer.newKieSession("book-recommendation-rules");
         kieSession.setGlobal("popularBooks", popularBooks);
 
+
         User unregistered = new User("unregistered", "unregistered", "unregistered", "unregistered", "unregistered", Role.UNREGISTERED);
+        kieSession.setGlobal("currentLog", unregistered);
         kieSession.insert(unregistered);
         for(Book book:books){
             kieSession.insert(book);
@@ -226,6 +231,7 @@ public class BookService {
             KieSession kieSession = kieContainer.newKieSession("book-recommendation-rules");
             System.out.println("Usloo");
             kieSession.setGlobal("popularBooks", popularBooks);
+            kieSession.setGlobal("currentLog", u);
 
             for(Book book:books){
                 Book b= new Book(book);
@@ -255,6 +261,14 @@ public class BookService {
         } else{
             KieSession kieSession = kieContainer.newKieSession("book-recommendation-rules");
             kieSession.setGlobal("popularBooks", popularBooks);
+            kieSession.setGlobal("currentLog", u);
+
+            ArrayList<User> users = (ArrayList<User>) userRepository.getUsers();
+            for(User user:users){
+                if(user.getRole() != Role.ADMIN){
+                    kieSession.insert(user);
+                }
+            }
 
             for(Book book:books){
                 kieSession.insert(book);

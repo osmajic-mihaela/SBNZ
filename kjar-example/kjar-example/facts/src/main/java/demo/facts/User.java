@@ -200,4 +200,53 @@ public class User implements Serializable{
         return t;
     }
 
+    public double getPirsKoef(User user){
+        double sumU = 0.0;
+        double sumT = 0.0;
+        double brU = 0.0;
+        double brT = 0.0;
+        ArrayList<UserBookRatingDTO> thisUserDtos = new ArrayList<>();
+        ArrayList<UserBookRatingDTO> userDtos = new ArrayList<>();
+
+
+        for(UserBookRatingDTO thisDto:this.getBooksAnRatingsDtos()){
+            if(thisDto.rating>=4){
+                for(UserBookRatingDTO userDto: user.getBooksAnRatingsDtos()){
+                    if(userDto.rating>=4 && userDto.bookName== thisDto.bookName){
+                        thisUserDtos.add(thisDto);
+                        sumT += thisDto.rating;
+                        brT+=1;
+                        userDtos.add(userDto);
+                        sumU += userDto.rating;
+                        brU+=1;
+                    }
+                }
+            }
+        }
+
+        return calcPirs(sumT/brT, sumU/brU, thisUserDtos, userDtos);
+    }
+
+    private double calcPirs(double avgT, double avgU, ArrayList<UserBookRatingDTO> dtosT, ArrayList<UserBookRatingDTO> dtosU){
+        double koef =0.0;
+        double i =0.0;
+        double k1 = 0.0;
+        double k2 = 0.0;
+
+        for(UserBookRatingDTO thisDto:dtosT){
+            for(UserBookRatingDTO userDto: dtosU){
+                if(userDto.bookName== thisDto.bookName){
+                    double t = thisDto.rating-avgT;
+                    double u = userDto.rating-avgU;
+                    i+=t*u;
+                    k1+=t*t;
+                    k2+=u*u;
+                }
+            }
+        }
+
+        koef = i/(Math.sqrt(k1)*Math.sqrt(k2));
+        return koef;
+    }
+
 }

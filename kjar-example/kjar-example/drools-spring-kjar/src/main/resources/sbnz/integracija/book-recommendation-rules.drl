@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 
 global List<Book> popularBooks;
+global User currentLog;
 
 rule "Nova knjiga - restart"
 salience 99999
@@ -232,6 +233,24 @@ then
       modify($similarBook){setPoints($similarBook.getPoints()+1)};
       $similarBook.cat2 = true;
       System.out.println("The book " + $book.getName() + " is user's liked books.");
+    }
+end
+
+rule "Similar users"
+ agenda-group "rog"
+ lock-on-active true
+when
+  $user: User($likedBooks:likedBook)
+  eval(currentLog.getPirsKoef($user)>0.5)
+then
+    for(Object t: $likedBooks){
+        Book b = (Book)t;
+        if( (b.getPoints()==0 && b.cat1==false && b.cat2==false)
+        ||(b.getPoints()==1 && ((b.cat1==true && b.cat2==false) || (b.cat2==true && b.cat1==false)   ))
+        || (b.getPoints()==2 && b.cat1==true && b.cat2==true)){
+          modify(b){setPoints(b.getPoints()+1)};
+          System.out.println("The book " + b.getName() + " is user's liked books.");
+        }
     }
 end
 
