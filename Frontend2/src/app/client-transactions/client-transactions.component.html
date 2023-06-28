@@ -6,23 +6,41 @@
                 <h5>Transaction {{transaction.id}}</h5>
             </div>
             <div class="card-body">
-                <label for="cardNumber">Card number: {{ transaction.cardNumber }}</label>
+                <label for="transactionDate">Transaction date: {{ transaction.transactionDate }}</label>
                 <br>
-                <label for="clientBankAccount">Client bank account: {{ transaction.clientBankAccount }}</label>
+                <label for="senderEmail">Sender email: {{ transaction.senderEmail }}</label>
                 <br>
-                <label for="expirationDate">Card expiration date: {{ transaction.expirationDate }}</label>
+                <label for="senderFirstName">Sender first name: {{ transaction.senderFirstName }}</label>
                 <br>
-                <label for="cvv">CVV: {{ transaction.cvv }}</label>
+                <label for="senderLastName">Sender last name: {{ transaction.senderLastName }}</label>
                 <br>
-                <label for="beneficiarBankAccount">Beneficiar bank account: {{ transaction.beneficiarBankAccount }}</label>
+                <label for="senderAccountId">Sender account id: {{ transaction.senderAccountId }}</label>
+                <br>
+                <label for="senderAccountNumber">Sender account number: {{ transaction.senderAccountNumber }}</label>
+                <br>
+                <label for="senderCardNumber">Sender card number: {{ transaction.senderCardNumber }}</label>
+                <br>
+                <label for="beneficiarAccountNumber">Beneficiar account number: {{ transaction.beneficiarAccountNumber }}</label>
+                <br>
+                <label for="cardExpirationDate">Card expiration date: {{ transaction.cardExpirationDate }}</label>
+                <br>
+                <label for="cvv">CVV/CVC: {{ transaction.cvv }}</label>
                 <br>
                 <label for="amountTrans">Transaction amount: {{ transaction.amountTrans }}</label>
                 <br>
+                <label for="locationIP">Location IP: {{ transaction.locationIP }}</label>
+                <br>
                 <label for="isSuspicious">Suspicious: {{ transaction.isSuspicious }}</label>
+                <br>
+                <label for="validateTransaction">Validate transaction: {{ transaction.validateTransaction }}</label>
+                <br>
+                <label for="safeTransaction">Safe transaction: {{ transaction.safeTransaction }}</label>
+                <br>
+                <label for="isApproved">Approved: {{ transaction.isApproved }}</label>
             </div>
-            <div class="card-footer" *ngIf="transaction.isSuspicious && !transaction.confirmed">
-                <button class="btn btn-success">Approve</button>
-                <button class="btn btn-danger">Cancel</button>
+            <div class="card-footer" *ngIf="!transaction.isApproved">
+                <button class="btn btn-success" (click)="onApprove(transaction.id)">Approve</button>
+                <button class="btn btn-danger" (click)="onCancel(transaction.id)">Cancel</button>
             </div>
         </div>
     </div>

@@ -36,4 +36,19 @@ public class TransactionController {
         var ret = transactionService.getClientSuspiciousTransactions(dto.email);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
+    @RequestMapping(value = "/approveTransaction/{id}", method = RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity<?> approveTransaction(@PathVariable("id") String id)
+    {
+        return new ResponseEntity<>(transactionService.approveTransaction(id), HttpStatus.OK);
+    }
+    @RequestMapping(value = "/cancelTransaction/{id}", method = RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity<?> cancelTransaction(@PathVariable("id") String id)
+    {
+        return new ResponseEntity<>(transactionService.cancelTransaction(id), HttpStatus.OK);
+    }
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> getClientTransactions(@RequestParam("email") String email)
+    {
+        return new ResponseEntity<>(transactionService.getTransactionsByClientId(email), HttpStatus.OK);
+    }
 }

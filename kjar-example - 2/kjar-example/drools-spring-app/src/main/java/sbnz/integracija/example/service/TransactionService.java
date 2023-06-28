@@ -129,4 +129,6 @@ public class TransactionService {
     public List<Transaction> getAllTransactions() {
         return repository.getTransactions();
     }
+    public Transaction approveTransaction(String id) { return repository.approveTransaction(id); }
+    public Transaction cancelTransaction(String id) { return repository.cancelTransaction(id); }
 }

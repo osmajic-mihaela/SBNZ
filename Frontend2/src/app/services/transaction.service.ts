@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Transaction } from "../model/transaction.model";
 import { Observable } from "rxjs";
@@ -8,7 +8,7 @@ import { UserService } from "./user.service";
 
 export class TransactionService {
 
-    private apiHost = 'http://localhost:8081/Transactions';
+    private apiHost = 'http://localhost:8081/transactions';
     private headers = { 'content-type': 'application/json' }
 
     constructor(
@@ -17,28 +17,22 @@ export class TransactionService {
     ) { }
 
     getClientTransactions(): Observable<Transaction[]>  {
-        return this.http.get<Transaction[]>(`${this.apiHost}`, { headers: this.headers });
+        let params = new HttpParams();
+        params = params.set("email", this.userService.user.value.email);
+        return this.http.get<Transaction[]>(`${this.apiHost}`, { headers: this.headers, params: params });
     }
 
-    approveTransaction(transactionId: number): void {
-        this.http.put(`${this.apiHost}/Approve/` + transactionId, { headers: this.headers }).subscribe({
-            next: () => {
-                alert('Successfully approved transaction ' + transactionId + '!');
-            },
-            error: () => {
-                alert('There was an error with approving the transaction ' + transactionId + "...");
-            }
-        })
+    approveTransaction(transactionId: string): Observable<Transaction> {
+        let params = new HttpParams();
+        params = params.set('id', transactionId);
+        console.log(transactionId);
+        return this.http.put<Transaction>(`${this.apiHost}/approveTransaction/` + transactionId, { headers: this.headers });
     }
     
-    cancelTransaction(transactionId: number): void {
-        this.http.put(`${this.apiHost}/Cancel/` + transactionId, { headers: this.headers }).subscribe({
-            next: () => {
-                alert('Successfully canceled transaction ' + transactionId + '!');
-            },
-            error: () => {
-                alert('There was an error with canceling the transaction ' + transactionId + "...");
-            }
-        })
+    cancelTransaction(transactionId: string): Observable<Transaction> {
+        let params = new HttpParams();
+        params = params.set('id', transactionId);
+        console.log(transactionId);
+        return this.http.put<Transaction>(`${this.apiHost}/cancelTransaction/` + transactionId, { headers: this.headers });
     }
 }
