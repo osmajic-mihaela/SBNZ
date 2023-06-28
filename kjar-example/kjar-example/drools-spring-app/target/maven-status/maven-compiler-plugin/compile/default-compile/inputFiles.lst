@@ -1,20 +1,20 @@
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\SampleApp.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\dto\BookRateDTO.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\SampleHomeController.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\service\UserService.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\repository\BookRepository.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\repository\OrderItemRepository.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\repository\OrderRepository.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\SampleAppController.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\dto\OrderDTO.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\service\OrderItemService.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\controller\BookController.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\dto\OrderItemDTO.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\service\BookService.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\repository\UserRepository.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\controller\OrderController.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\controller\OrderItemController.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\controller\UserController.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\dto\LoginDTO.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\SampleAppService.java
-C:\faks_projekti\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\service\OrderService.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\service\OrderItemService.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\service\BookService.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\SampleHomeController.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\repository\BookRepository.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\dto\LoginDTO.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\dto\OrderDTO.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\service\OrderService.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\controller\OrderController.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\dto\OrderItemDTO.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\repository\UserRepository.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\SampleApp.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\repository\OrderRepository.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\repository\OrderItemRepository.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\SampleAppController.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\controller\OrderItemController.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\SampleAppService.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\dto\BookRateDTO.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\controller\UserController.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\controller\BookController.java
+D:\kopija jebenog projekta\SBNZ\kjar-example\kjar-example\drools-spring-app\src\main\java\sbnz\integracija\example\service\UserService.java

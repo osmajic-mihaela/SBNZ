@@ -140,7 +140,7 @@ export class BooksComponent {
           next: (response:any) => {
           
             console.log("kreiranje transakcije",response)
-            if(response.validateTransaction){
+            if(response.validateTransaction && (response.suspicious==false || response.suspicious==undefined)){
               this.createOrder(orderdto).subscribe(
                 {
                   next: (response:Order) => {
@@ -150,6 +150,10 @@ export class BooksComponent {
                   }
                 }
               )
+            }else if(!response.validateTransaction){
+              alert("Incorect data")
+            }else if(response.suspicious){
+              alert("Suspicious transaction")
             }
            }
     

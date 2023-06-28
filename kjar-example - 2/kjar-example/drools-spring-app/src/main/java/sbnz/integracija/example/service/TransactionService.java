@@ -129,6 +129,16 @@ public class TransactionService {
     public List<Transaction> getAllTransactions() {
         return repository.getTransactions();
     }
-    public Transaction approveTransaction(String id) { return repository.approveTransaction(id); }
+    public Transaction approveTransaction(String id) {
+        Transaction transaction = repository.getTransactionById(UUID.fromString(id));
+
+        AccountPackage accPackage = accountPackageRepository.getPackageByAccountNumber(transaction.getSenderAccountNumber());
+        AccountPackage benefacierPackage = accountPackageRepository.getPackageByAccountNumber(transaction.getBeneficiarAccountNumber());
+        accPackage.setBalance(accPackage.getBalance() - transaction.getAmountTrans());
+        benefacierPackage.setBalance(benefacierPackage.getBalance() + transaction.getAmountTrans());
+
+
+        return repository.approveTransaction(id);
+    }
     public Transaction cancelTransaction(String id) { return repository.cancelTransaction(id); }
 }

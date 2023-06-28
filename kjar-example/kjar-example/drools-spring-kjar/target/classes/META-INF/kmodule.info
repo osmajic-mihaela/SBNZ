@@ -77,13 +77,12 @@
     <entry>
       <string>sbnz.integracija</string>
       <set>
-        <string>Stavka - cena &gt; 3000</string>
         <string>Brisanje knjiga koje nemaju tog pisca</string>
-        <string>Uklanjanje loše ocenjenih knjiga</string>
+        <string>Stavka - cena &gt; 3000</string>
         <string>Insert u listu</string>
         <string>Brisanje pisaca ako ih ima vise od 4 koji imaju vecu ocenu</string>
+        <string>NasumiÄ�an izbor 10 knjiga</string>
         <string>Nova knjiga - restart</string>
-        <string>Nasumičan izbor 10 knjiga</string>
         <string>Similar Books</string>
         <string>Korisnikovi interesantni zanrovi</string>
         <string>Inserti</string>
@@ -94,23 +93,24 @@
         <string>Knjige po preferenci korisnika</string>
         <string>Popularna knjiga - broj ocena jednak ili preko 20</string>
         <string>Sortiranje novih knjiga po bodovima</string>
-        <string>Stavka - 2 ili vise artikala</string>
         <string>Preporuka - Popularna knjiga sa dobrim ili neutralnim ocenama</string>
         <string>Similar users</string>
+        <string>Stavka - 2 ili vise artikala</string>
         <string>Popularna knjiga - nova knjiga i broj ocena jednak ili preko 10</string>
         <string>Preporuka - Nova knjiga</string>
         <string>Omiljeni zanrovi pisca</string>
         <string>Brisanje knjiga sa losijom  ocenom</string>
         <string>Nova knjiga - Dodata u ponudu u prethodnih mesec dana</string>
-        <string>Nova knjiga - Objavljena u prethodnih šest meseci</string>
+        <string>Uklanjanje loÅ¡e ocenjenih knjiga</string>
         <string>Porudzbina - 5 ili vise stavki</string>
-        <string>Stavka - cena &gt; 2000 i kategorija = Edukativni sadrzaj</string>
+        <string>LoÅ¡e ocenjena knjiga</string>
         <string>Neutralno ocenjena knjiga</string>
+        <string>Stavka - cena &gt; 2000 i kategorija = Edukativni sadrzaj</string>
         <string>Korisnikovi interesantni pisci</string>
+        <string>Nova knjiga - Objavljena u prethodnih Å¡est meseci</string>
         <string>User nije nov</string>
         <string>Izbor pisaca po zanru</string>
         <string>User je nov</string>
-        <string>Loše ocenjena knjiga</string>
       </set>
     </entry>
   </rulesByPackage>
