@@ -1,0 +1,17 @@
+<div class="container mt-4" >
+    <h1>Login</h1>
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" ngModel id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" ngModel id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>
+            <button class="btn btn-danger" (click)="onCancel(loginForm)">Cancel</button>
+        </div>
+    </form>
+</div>

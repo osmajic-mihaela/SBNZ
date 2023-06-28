@@ -81,7 +81,7 @@ public class CreditService {
     }
 
     public CreditRequest rejectRequest(UUID id) {
-        return repository.acceptRequest(id);
+        return repository.rejectRequest(id);
     }
 
     public List<CreditRequest> getClientPendingRequests(String email) {

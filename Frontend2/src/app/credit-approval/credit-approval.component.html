@@ -1,0 +1,91 @@
+<div class="container">
+    <div class="row">
+        <button class="btn btn-primary" (click)="openModal()">Create a credit request</button>
+    </div>
+    <div class="row">
+        <div class="card" *ngFor="let creditRequest of creditRequests">
+            <div class="card-header">
+                <h4>Credit request {{ creditRequest.id }}</h4>
+            </div>
+            <div class="card-body">
+                <label for="email">Client email: {{ creditRequest.email }}</label>
+                <br>
+                <label for="loanAmount">Credit amount: {{ creditRequest.amount }}</label>
+                <br>
+                <label for="paymentRate">Payment rate: {{ creditRequest.mounthlyRate }}</label>
+                <br>
+                <label for="rateNumber">Rate number: {{ creditRequest.rateNumber }}</label>
+                <br>
+                <label for="creditRequestType">Status: {{ creditRequest.creditRequestType }}</label>
+                <br>
+                <label for="isRecommend" style="font-weight: bold;">Is recommended: {{ creditRequest.recommend }}</label>
+            </div>
+            <div class="card-footer" *ngIf="creditRequest.creditRequestType == 'PENDING'">
+                <button class="btn btn-success" [disabled]="creditRequest.creditRequestType != 'PENDING'" (click)="onApprove(creditRequest.id)">Approve</button>
+                <button class="btn btn-danger" [disabled]="creditRequest.creditRequestType != 'PENDING'" (click)="onCancel(creditRequest.id)">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Make a loan request</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal(creditRequestForm)"></button>
+            </div>
+            <form #creditRequestForm="ngForm" (ngSubmit)="onAdd(creditRequestForm)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="email">Client email</label>
+                        <input type="email" class="form-control" ngModel id="clientEmail" name="clientEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" class="form-control" ngModel id="amount" name="amount" required [(ngModel)]="amount" (blur)="updateMonthlyRate()">
+                    </div>
+                    <div class="form-group">
+                        <label for="rateNumber">Rate number</label>
+                        <input type="number" class="form-control" ngModel id="rateNumber" name="rateNumber" required [(ngModel)]="rateNumber" (blur)="updateMonthlyRate()">
+                    </div>
+                    <div class="form-group">
+                        <label for="mounthlyRate">Mounthly rate</label>
+                        <input type="number" class="form-control" ngModel id="mounthlyRate" name="mounthlyRate" [(ngModel)]="rateCalculate" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="employmentType">Employment type</label>
+                        <select ngModel name="employmentType" id="employmentType" class="form-control" required [(ngModel)]="employmentType">
+                            <option *ngFor="let option of employTypes" [ngValue]="option">{{ option }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group" *ngIf="employmentType != 'UNEMPLOYED'">
+                        <label for="startContract">Start contract</label>
+                        <input type="date" class="form-control" ngModel id="startContract" name="startContract" [required]="employmentType != 'UNEMPLOYED'">
+                    </div>
+                    <div class="form-group" *ngIf="employmentType == 'EMPLOYED_PERIOD'">
+                        <label for="endContract">End contract</label>
+                        <input type="date" class="form-control" ngModel id="endContract" name="endContract" [required]="employmentType == 'EMPLOYED_PERIOD'">
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" class="form-control" ngModel id="age" name="age" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="minDate">Min date</label>
+                        <input type="date" class="form-control" ngModel id="minDate" name="minDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="maxDate">Max date</label>
+                        <input type="date" class="form-control" ngModel id="maxDate" name="maxDate" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Create</button>
+                        <button class="btn btn-danger" (click)="closeModal(creditRequestForm)">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

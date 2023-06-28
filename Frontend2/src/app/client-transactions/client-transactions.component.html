@@ -1,0 +1,47 @@
+<br>
+<div class="container d-flex justify-content-center">
+    <div class="row col-6">
+        <div class="card" *ngFor="let transaction of transactions">
+            <div class="card-header">
+                <h5>Transaction {{transaction.id}}</h5>
+            </div>
+            <div class="card-body">
+                <label for="transactionDate">Transaction date: {{ transaction.transactionDate }}</label>
+                <br>
+                <label for="senderEmail">Sender email: {{ transaction.senderEmail }}</label>
+                <br>
+                <label for="senderFirstName">Sender first name: {{ transaction.senderFirstName }}</label>
+                <br>
+                <label for="senderLastName">Sender last name: {{ transaction.senderLastName }}</label>
+                <br>
+                <label for="senderAccountId">Sender account id: {{ transaction.senderAccountId }}</label>
+                <br>
+                <label for="senderAccountNumber">Sender account number: {{ transaction.senderAccountNumber }}</label>
+                <br>
+                <label for="senderCardNumber">Sender card number: {{ transaction.senderCardNumber }}</label>
+                <br>
+                <label for="beneficiarAccountNumber">Beneficiar account number: {{ transaction.beneficiarAccountNumber }}</label>
+                <br>
+                <label for="cardExpirationDate">Card expiration date: {{ transaction.cardExpirationDate }}</label>
+                <br>
+                <label for="cvv">CVV/CVC: {{ transaction.cvv }}</label>
+                <br>
+                <label for="amountTrans">Transaction amount: {{ transaction.amountTrans }}</label>
+                <br>
+                <label for="locationIP">Location IP: {{ transaction.locationIP }}</label>
+                <br>
+                <label for="isSuspicious">Suspicious: {{ transaction.suspicious }}</label>
+                <br>
+                <label for="validateTransaction">Validate transaction: {{ transaction.validateTransaction }}</label>
+                <br>
+                <label for="safeTransaction">Safe transaction: {{ transaction.safeTransaction }}</label>
+                <br>
+                <label for="isApproved">Approved: {{ transaction.approved }}</label>
+            </div>
+            <div class="card-footer" *ngIf="!transaction.approved && transaction.suspicious">
+                <button class="btn btn-success" (click)="onApprove(transaction.id)">Approve</button>
+                <button class="btn btn-danger" (click)="onCancel(transaction.id)">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

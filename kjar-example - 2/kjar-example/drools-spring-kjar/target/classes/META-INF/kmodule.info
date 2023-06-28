@@ -40,9 +40,9 @@
         <string>Multiple transactions in small time interval</string>
         <string>oldClientCredit</string>
         <string>employedClient</string>
+        <string>Average costs</string>
         <string>Suspicious transaction with big amount over night</string>
         <string>Safe transactions</string>
-        <string>Average costs</string>
         <string>shouldApproveCredit</string>
         <string>Multiple transactions on far location</string>
         <string>notMissingLoan</string>

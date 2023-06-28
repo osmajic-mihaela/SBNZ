@@ -23,4 +23,8 @@ public class AccountPackageController {
         accountPackage.setId(UUID.randomUUID());
         return new ResponseEntity<>(accountPackageService.addPackage(accountPackage), HttpStatus.OK);
     }
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> packagesByUser(@RequestParam("id") String email) {
+        return new ResponseEntity<>(accountPackageService.getPackagesByUser(email), HttpStatus.OK);
+    }
 }

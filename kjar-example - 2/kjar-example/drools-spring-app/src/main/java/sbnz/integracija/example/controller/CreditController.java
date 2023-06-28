@@ -24,6 +24,10 @@ public class CreditController {
     @Autowired
     private final CreditService creditService;
 
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> getAll() {
+        return new ResponseEntity<>(creditService.getAllRequests(), HttpStatus.OK);
+    }
     @RequestMapping(value = "/addRequest", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> addRequest(@RequestBody CreditRequest request) {
         request.setId(UUID.randomUUID());
@@ -37,14 +41,14 @@ public class CreditController {
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/acceptRequest", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?>acceptRequest(@PathParam("id") String id) {
+    @RequestMapping(value = "/acceptRequest/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?>acceptRequest(@PathVariable("id") String id) {
         var ret = creditService.acceptRequest(UUID.fromString(id));
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/rejectRequest", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> rejectRequest(@PathParam("id") String id) {
+    @RequestMapping(value = "/rejectRequest/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> rejectRequest(@PathVariable("id") String id) {
         var ret = creditService.rejectRequest(UUID.fromString(id));
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }

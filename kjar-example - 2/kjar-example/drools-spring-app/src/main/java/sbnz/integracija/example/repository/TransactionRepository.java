@@ -115,4 +115,27 @@ public class TransactionRepository {
                 .collect(Collectors.toList());
     }
 
+    public Transaction approveTransaction(String id)
+    {
+        Transaction first = transactions.get(0);
+        System.out.println(first.getId());
+        System.out.println(UUID.fromString(id));
+        Transaction tr = transactions.stream()
+                .filter(t -> t.getId().equals(UUID.fromString(id)))
+                .findFirst()
+                .orElse(null);
+        tr.setApproved(true);
+        tr.setSuspicious(false);
+        return tr;
+    }
+
+    public Transaction cancelTransaction(String id)
+    {
+        Transaction tr = transactions.stream()
+                .filter(t -> t.getId().equals(UUID.fromString(id)))
+                .findFirst()
+                .orElse(null);
+        tr.setApproved(true);
+        return tr;
+    }
 }
