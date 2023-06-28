@@ -42,12 +42,48 @@ public class TransactionRepository {
         r.setYear(2024);
 
 
-        Transaction transaction1 = new Transaction(UUID.randomUUID(), LocalDateTime.now(), "lazar@gmail.com",
+        Transaction transaction1 = new Transaction(UUID.fromString("d38bf5f3-90ca-4c42-967c-995912032975"), LocalDateTime.now(), "lazar@gmail.com",
                 "Lazar", "Lazar", null, 11112,
                 11111, 33333, r,
-                123, 5, InetAddress.getByName("93.87.123.177") , false, false, true);
+                123, 5, InetAddress.getByName("93.87.123.177") , false, true, true, "books");
+
+        Transaction transaction11 = new Transaction(UUID.fromString("cfcab94d-359a-4e81-a8a9-c81a3845df74"), LocalDateTime.now().minusMonths(5), "user",
+                "Lazar", "Lazar", null, 11113,
+                11113, 33333, r,
+                123, 100, InetAddress.getByName("93.87.123.177") , false, true, true, "CREDIT");
+
+        Transaction transaction22 = new Transaction(UUID.fromString("7d07a66f-f59d-4292-a498-b981084b228c"), LocalDateTime.now().minusMonths(4), "user",
+                "Lazar", "Lazar", null, 11113,
+                11113, 33333, r,
+                123, 100, InetAddress.getByName("93.87.123.177") , false, true, true, "CREDIT");
+
+        Transaction transaction33 = new Transaction(UUID.fromString("ed9852d2-f159-4159-89de-9a410f3a4158"), LocalDateTime.now().minusMonths(3), "user",
+                "Lazar", "Lazar", null, 11113,
+                11113, 33333, r,
+                123, 100, InetAddress.getByName("93.87.123.177") , false, true, true, "CREDIT");
+
+        Transaction transaction44 = new Transaction(UUID.fromString("0ac173c0-12cc-45ed-b446-289578d8dcae"), LocalDateTime.now().minusMonths(2), "user",
+                "Lazar", "Lazar", null, 11113,
+                11113, 33333, r,
+                123, 100, InetAddress.getByName("93.87.123.177") , false, true, true, "CREDIT");
+
+        Transaction transaction55 = new Transaction(UUID.fromString("7fc860d2-9b35-490f-925f-dcc439b05e43"), LocalDateTime.now().minusMonths(1), "user",
+                "Lazar", "Lazar", null, 11113,
+                11113, 33333, r,
+                123, 100, InetAddress.getByName("93.87.123.177") , false, true, true, "CREDIT");
+
+        Transaction transaction6 = new Transaction(UUID.fromString("6adc5424-5265-469c-9a49-d0d517bb96b8"), LocalDateTime.now(), "random",
+                "Lazar", "Lazar", null, 33333,
+                33333, 55555, r,
+                123, 2000, InetAddress.getByName("93.87.123.177") , false, true, true, "CREDIT");
 
         transactions.add(transaction1);
+        transactions.add(transaction11);
+        transactions.add(transaction22);
+        transactions.add(transaction33);
+        transactions.add(transaction44);
+        transactions.add(transaction55);
+        transactions.add(transaction6);
     }
 
     public List<Transaction> getTransactions() {
