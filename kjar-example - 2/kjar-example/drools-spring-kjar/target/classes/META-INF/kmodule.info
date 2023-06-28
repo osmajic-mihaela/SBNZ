@@ -1,6 +1,14 @@
 <org.drools.core.rule.KieModuleMetaInfo>
   <typeMetaInfos>
     <entry>
+      <string>demo.facts.CreditRequest</string>
+      <org.drools.core.rule.TypeMetaInfo>
+        <kind>CLASS</kind>
+        <role>FACT</role>
+        <isDeclaredType>false</isDeclaredType>
+      </org.drools.core.rule.TypeMetaInfo>
+    </entry>
+    <entry>
       <string>demo.facts.Transaction</string>
       <org.drools.core.rule.TypeMetaInfo>
         <kind>CLASS</kind>
@@ -22,12 +30,23 @@
       <string>sbnz.integracija</string>
       <set>
         <string>Upada u pravila</string>
+        <string>Credit approval</string>
         <string>Above average user transaction amount</string>
+        <string>clientCredit</string>
+        <string>clientHasGoodDTI</string>
+        <string>Missed loan in past 6 month</string>
+        <string>periodEmployedClient</string>
+        <string>Average income</string>
+        <string>Unusual location for transaction</string>
+        <string>Multiple transactions in small time interval</string>
+        <string>oldClientCredit</string>
+        <string>employedClient</string>
         <string>Suspicious transaction with big amount over night</string>
         <string>Safe transactions</string>
-        <string>Unusual location for transaction</string>
+        <string>Average costs</string>
+        <string>shouldApproveCredit</string>
         <string>Multiple transactions on far location</string>
-        <string>Multiple transactions in small time interval</string>
+        <string>notMissingLoan</string>
       </set>
     </entry>
   </rulesByPackage>

@@ -5,4 +5,8 @@
 	<kbase name="transaction-kbase" packages="sbnz.integracija">
 		<ksession name="transaction-rules"/>
 	</kbase>
+
+	<kbase name="credit-kbase" packages="sbnz.integracija">
+		<ksession name="credit-rules"/>
+	</kbase>
 </kmodule>
