@@ -46,7 +46,7 @@ when
     $user: User($userTransactions: transactions,role==Role.USER)
     $transaction: Transaction($amount: amountTrans) from $userTransactions
 
-    $avgAmount: Number(doubleValue > 0) from accumulate(
+    $avgAmount: Number(doubleValue/$userTransactions.size() > 0) from accumulate(
                              $s: Transaction(
                                  ) from $userTransactions ,
                                  init(double count = 0.0;),

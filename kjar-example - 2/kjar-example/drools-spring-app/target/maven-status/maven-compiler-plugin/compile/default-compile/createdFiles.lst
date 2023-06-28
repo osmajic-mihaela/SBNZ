@@ -1,3 +1,4 @@
+sbnz\integracija\example\service\CreditService.class
 sbnz\integracija\example\SampleApp.class
 sbnz\integracija\example\service\UserService.class
 sbnz\integracija\example\repository\TransactionRepository.class
@@ -11,5 +12,7 @@ sbnz\integracija\example\controller\AccountPackageController.class
 sbnz\integracija\example\repository\AccountPackageRepository.class
 sbnz\integracija\example\SampleAppController.class
 sbnz\integracija\example\service\TransactionService.class
+sbnz\integracija\example\controller\CreditController.class
 sbnz\integracija\example\SampleHomeController.class
 sbnz\integracija\example\controller\UserController.class
+sbnz\integracija\example\repository\CreditRepository.class

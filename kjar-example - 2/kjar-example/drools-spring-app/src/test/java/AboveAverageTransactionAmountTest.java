@@ -56,7 +56,7 @@ public class AboveAverageTransactionAmountTest {
         Transaction transaction1 = new Transaction(UUID.randomUUID(), LocalDateTime.now(), "lazar@gmail.com",
                 "Lazar", "Lazar", null, 11112,
                 11111, 33333, r,
-                123, 5, InetAddress.getByName("93.87.123.177") , false, false, true);
+                123, 5, InetAddress.getByName("93.87.123.177") , false, false, true, "");
 
         ksession.insert(user4);
         ksession.insert(transaction1);

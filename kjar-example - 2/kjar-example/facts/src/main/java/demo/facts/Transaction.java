@@ -38,12 +38,15 @@ public class Transaction {
 
     private boolean isApproved;
 
+    private String purpose;
+
+
 
     public Transaction(){}
 
     public Transaction(LocalDateTime transactionDate, String senderEmail, String senderFirstName, String senderLastName,
                        UUID senderAccountId, int senderAccountNumber, int senderCardNumber, int beneficiarAccountNumber,
-                       Date cardExpirationDate, int cvv, double amountTrans, InetAddress locationIP, boolean isSuspicious) {
+                       Date cardExpirationDate, int cvv, double amountTrans, InetAddress locationIP, boolean isSuspicious, String purpose) {
         this.transactionDate = transactionDate;
         this.senderEmail = senderEmail;
         this.senderFirstName = senderFirstName;
@@ -60,13 +63,14 @@ public class Transaction {
         this.validateTransaction = false;
         this.safeTransaction = false;
         this.isApproved = false;
+        this.purpose = purpose;
     }
 
     //za seed podatke
     public Transaction(UUID id, LocalDateTime transactionDate, String senderEmail, String senderFirstName,
                        String senderLastName, UUID senderAccountId, int senderAccountNumber, int senderCardNumber,
                        int beneficiarAccountNumber, Date cardExpirationDate, int cvv, double amountTrans,
-                       InetAddress locationIP, boolean isSuspicious, boolean validateTransaction, boolean safeTransaction) {
+                       InetAddress locationIP, boolean isSuspicious, boolean validateTransaction, boolean safeTransaction, String purpose) {
         this.id = id;
         this.transactionDate = transactionDate;
         this.senderEmail = senderEmail;
@@ -84,6 +88,7 @@ public class Transaction {
         this.validateTransaction = validateTransaction;
         this.safeTransaction = safeTransaction;
         this.isApproved = false;
+        this.purpose = purpose;
     }
 
 
@@ -222,6 +227,14 @@ public class Transaction {
 
     public void setApproved(boolean approved) {
         isApproved = approved;
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
 
     public long getDistance(InetAddress ipAddress2) throws UnknownHostException {

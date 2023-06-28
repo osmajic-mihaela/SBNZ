@@ -1,4 +1,7 @@
+demo\facts\CreditRequestType.class
+demo\facts\CreditRequest.class
 demo\facts\Transaction.class
 demo\facts\User.class
 demo\facts\Role.class
 demo\facts\AccountPackage.class
+demo\facts\EmployType.class

@@ -1,0 +1,188 @@
+package sbnz.integracija;
+
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.UUID;
+
+import demo.facts.User;
+import demo.facts.Transaction;
+import demo.facts.CreditRequest;
+import demo.facts.CreditRequestType;
+import demo.facts.EmployType;
+import java.util.Comparator;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
+rule "Average costs"
+    agenda-group "credit"
+    when
+        $user: User($userTransactions:transactions, $email:email)
+        $creditRequest: CreditRequest()
+        $sum: Number(doubleValue > 0) from accumulate(
+                                 $s: Transaction(
+                                        senderEmail.equals($email)
+                                     ) from $userTransactions ,
+                                     init(double count = 0.0;),
+                                     action(count += $s.getAmountTrans();),
+                                     reverse(count -= $s.getAmountTrans();),
+                                     result(count)
+                                )
+        $br: Number(intValue > 0) from accumulate(
+                                      $s: Transaction(
+                                             senderEmail.equals($email)
+                                          ) from $userTransactions ,
+                                          init(int count = 0;),
+                                          action(count += 1;),
+                                          reverse(count -= 1;),
+                                          result(count)
+                                     )
+    then
+        if($br.intValue()>0){
+                modify($creditRequest){setAvgCosts($sum.doubleValue()/$br.intValue());}
+        }
+end
+
+rule "Average income"
+    agenda-group "credit"
+    when
+        $user: User($userTransactions:transactions, $email:email)
+        $creditRequest: CreditRequest()
+        $sum: Number(doubleValue > 0) from accumulate(
+                         $s: Transaction(
+                                !senderEmail.equals($email)
+                             ) from $userTransactions ,
+                         init(double count = 0.0;),
+                         action(count += $s.getAmountTrans();),
+                         reverse(count -= $s.getAmountTrans();),
+                         result(count)
+                        )
+        $br: Number(intValue > 0) from accumulate(
+                                      $s: Transaction(
+                                         !senderEmail.equals($email)
+                                      ) from $userTransactions ,
+                                          init(int count = 0;),
+                                          action(count += 1;),
+                                          reverse(count -= 1;),
+                                          result(count)
+                                     )
+    then
+        if($br.intValue()>0){
+            modify($creditRequest){setAvgIncome($sum.doubleValue()/$br.intValue());}
+        }
+end
+
+rule "Missed loan in past 6 month"
+    agenda-group "credit"
+    when
+        $user: User($userTransactions:transactions, $email:email)
+        $creditRequest: CreditRequest()
+        $br: Number(intValue > 0) from accumulate(
+                         $s: Transaction(
+                                senderEmail.equals($email),
+                            purpose.equals('CREDIT'),
+                            transactionDate.isAfter(LocalDateTime.now().minusMonths(6))
+                         ) from $userTransactions ,
+                             init(int count = 0;),
+                             action(count += 1;),
+                             reverse(count -= 1;),
+                             result(count)
+                        )
+        eval($br.intValue() < 5)
+    then
+        modify($creditRequest){setMissedLoan(true);}
+end
+
+
+rule "Credit approval"
+    no-loop
+    salience -100
+    agenda-group "credit"
+    when
+        $user : User($em:email)
+        $creditRequest: CreditRequest($id:id)
+        shouldApproveCredit($em,$id;)
+    then
+        modify($creditRequest){setRecommend(true);}
+        System.out.println("Credit recommended for approval: " + $user.getName() + " " + $user.getSurname());
+end
+
+query shouldApproveCredit(String $em, UUID $id)
+    $u:User(email.equals($em)) and
+    ( $c1: CreditRequest(
+            ages>=60,
+            rateNumber>=36,
+            id==$id) and
+        oldClientCredit($em,$id;)
+    ) or
+    (
+        $c2:CreditRequest(ages<60,id==$id) and
+        clientCredit($em,$id;)
+    )
+end
+
+query oldClientCredit(String $em, UUID $id)
+      notMissingLoan($id;) and
+      clientHasGoodDTI($em,$id;) and
+    (
+        $u:User(email.equals($em)) and
+        $c2:CreditRequest( (avgIncome-avgCosts)*0.7 > mounthlyRate,id==$id )
+    )
+end
+
+query clientCredit(String $em, UUID $id)
+    $u:User(email.equals($em)) and
+    (
+        $c1:CreditRequest( employType== EmployType.EMPLOYED_PERIOD,id==$id) and
+         periodEmployedClient($em,$id;)
+     ) or
+    (
+        $c1:CreditRequest( employType== EmployType.EMPLOYED,id==$id) and
+         employedClient($em,$id;)
+     )
+end
+
+query periodEmployedClient(String $em, UUID $id)
+   notMissingLoan($id;) and
+   clientHasGoodDTI($em,$id;) and
+   $u:User(email.equals($em))
+   $c1: CreditRequest(
+           minDate.isAfter(startContract),
+           maxDate.isBefore(endContract),
+           (avgIncome-avgCosts) > mounthlyRate,
+           id==$id
+       )
+end
+
+query employedClient(String $em, UUID $id)
+   notMissingLoan($id;) and
+   clientHasGoodDTI($em,$id;) and
+   $u:User(email.equals($em)) and
+    $c1: CreditRequest(
+          minDate.isAfter(startContract),
+          (avgIncome-avgCosts) > mounthlyRate,
+          id==$id
+      )
+end
+
+query clientHasGoodDTI(String $em, UUID $id)
+    $user: User($userTransactions:transactions, email.equals($em)) and
+    $sumIncome: Number(doubleValue > 0) from accumulate(
+                             $s: Transaction(
+                                    !senderEmail.equals($em)
+                                 ) from $userTransactions ,
+                                 init(double count = 0.0;),
+                                 action(count += $s.getAmountTrans();),
+                                 reverse(count -= $s.getAmountTrans();),
+                                 result(count)
+                            ) and
+    $c1:CreditRequest($sumIncome.doubleValue() >= 1.36*(mounthlyRate+avgCosts),id==$id )
+end
+
+
+query notMissingLoan($id)
+      exists(CreditRequest( isMissedLoan()==false,id==$id ))
+end
+
