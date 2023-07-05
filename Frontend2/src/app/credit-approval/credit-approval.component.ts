@@ -43,6 +43,16 @@ export class CreditApprovalComponent {
         var changed = this.creditRequests.filter(t => t.id === id)[0];
         this.creditRequests.splice(this.creditRequests.indexOf(changed), 1, ret);
         alert('Successfully approved credit request ' + id);
+        this.loanService.getClientCreditRequests().subscribe({
+          next: (ret: CreditRequest[]) => {
+            this.creditRequests = ret;
+            console.log(ret);
+            console.log(ret[0].creditRequestType == 'PENDING')
+          },
+          error: (err: HttpErrorResponse) => {
+            alert(err.message);
+          }
+        })
       },
       error: (err: HttpErrorResponse) => {
         alert(err.message);
@@ -56,6 +66,16 @@ export class CreditApprovalComponent {
         var changed = this.creditRequests.filter(t => t.id === id)[0];
         this.creditRequests.splice(this.creditRequests.indexOf(changed), 1, ret);
         alert('Successfully canceled credit request ' + id);
+        this.loanService.getClientCreditRequests().subscribe({
+          next: (ret: CreditRequest[]) => {
+            this.creditRequests = ret;
+            console.log(ret);
+            console.log(ret[0].creditRequestType == 'PENDING')
+          },
+          error: (err: HttpErrorResponse) => {
+            alert(err.message);
+          }
+        })
       },
       error: (err: HttpErrorResponse) => {
         alert(err.message);
@@ -64,34 +84,67 @@ export class CreditApprovalComponent {
   }
 
   onAdd(form: NgForm): void {
-    this.loanService.createCreditRequest(
-      new CreditRequest(
-        null,
-        form.value.clientEmail,
-        form.value.amount,
-        form.value.rateNumber,
-        this.rateCalculate,
-        form.value.employmentType,
-        form.value.age,
-        form.value.startContract ? new Date(Date.parse(form.value.startContract)) : null,
-        form.value.endContract ? new Date(Date.parse(form.value.endContract)) : new Date(2099, 0, 1),
-        new Date(Date.parse(form.value.minDate)),
-        new Date(Date.parse(form.value.maxDate)),
-        0,
-        0,
-        false,
-        CreditRequestType.PENDING,
-        false
-      )
-    ).subscribe({
-      next: (ret: CreditRequest) => {
-        this.creditRequests.push(ret);
-        alert('Successfully created the credit request ' + ret.id);
-      },
-      error: (err: HttpErrorResponse) => {
-        alert(err.message);
-      }
-    });
+    if(form.value.employmentType==EmployType.UNEMPLOYED){
+      this.loanService.createCreditRequest(
+        new CreditRequest(
+          null,
+          form.value.clientEmail,
+          form.value.amount,
+          form.value.rateNumber,
+          this.rateCalculate,
+          form.value.employmentType,
+          form.value.age,
+          new Date(Date.parse(form.value.minDate)),
+          new Date(Date.parse(form.value.maxDate)),
+          new Date(Date.parse(form.value.minDate)),
+          new Date(Date.parse(form.value.maxDate)),
+          0,
+          0,
+          false,
+          CreditRequestType.PENDING,
+          false
+        )
+      ).subscribe({
+        next: (ret: CreditRequest) => {
+          this.creditRequests.push(ret);
+          alert('Successfully created the credit request ' + ret.id);
+        },
+        error: (err: HttpErrorResponse) => {
+          alert(err.message);
+        }
+      });
+    }else{
+      this.loanService.createCreditRequest(
+        new CreditRequest(
+          null,
+          form.value.clientEmail,
+          form.value.amount,
+          form.value.rateNumber,
+          this.rateCalculate,
+          form.value.employmentType,
+          form.value.age,
+          form.value.startContract ? new Date(Date.parse(form.value.startContract)) : null,
+          form.value.endContract ? new Date(Date.parse(form.value.endContract)) : new Date(2099, 0, 1),
+          new Date(Date.parse(form.value.minDate)),
+          new Date(Date.parse(form.value.maxDate)),
+          0,
+          0,
+          false,
+          CreditRequestType.PENDING,
+          false
+        )
+      ).subscribe({
+        next: (ret: CreditRequest) => {
+          this.creditRequests.push(ret);
+          alert('Successfully created the credit request ' + ret.id);
+        },
+        error: (err: HttpErrorResponse) => {
+          alert(err.message);
+        }
+      });
+    }
+
+    
     this.closeModal(form);
   }
 
